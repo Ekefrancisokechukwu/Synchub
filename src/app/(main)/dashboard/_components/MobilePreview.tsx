@@ -1,0 +1,70 @@
+"use client";
+
+import { useQuery } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
+
+const MobilePreview = () => {
+  const currentAccount = useQuery(api.synchubAccount.accounts);
+  const isLoading = currentAccount === undefined || currentAccount === null;
+
+  if (isLoading) {
+    return (
+      <ScrollArea className="h-[85vh] rounded-3xl px-4  bg-gray-200  w-[330px] mx-auto shadow-[0px_0px_0px_11px_#2c2c2b,_0px_0px_0px_13px_#1a1919,_0px_0px_0px_20px_#0e0e0d] ">
+        <Button size={"icon"} variant={"ghost"} className="animate-spin">
+          <Loader2 />
+        </Button>
+      </ScrollArea>
+    );
+  }
+
+  return (
+    <>
+      <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-gray-200  max-w-[320px] w-full mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
+        {currentAccount.length > 0 && (
+          <>
+            <div className="pt-7">
+              {currentAccount[0].avatar.imageUrl ? (
+                <Avatar className="w-[4rem] h-[4rem]">
+                  <AvatarImage src="" alt="" />
+                  <AvatarFallback></AvatarFallback>
+                </Avatar>
+              ) : (
+                <figure
+                  style={{ background: currentAccount[0]?.avatar.bg }}
+                  className="w-[4rem] h-[4rem] text-base  rounded-full  text-white mx-auto grid place-items-center"
+                >
+                  @
+                </figure>
+              )}
+            </div>
+
+            <h1 className="text-center text-xl capitalize  mt-3 font-semibold">
+              {currentAccount[0].username}
+            </h1>
+            {currentAccount[0].bio && (
+              <p className="mt-3 text-center text-sm text-neutral-600 ">
+                {currentAccount[0].bio}
+              </p>
+            )}
+          </>
+        )}
+      </ScrollArea>
+
+      <div className="grid place-items-center mt-7">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="px-5 py-2 text-sm hover:shadow-xl  rounded-full text-white bg-blue-600 inline-block  text-center"
+        >
+          Device Preview
+        </motion.button>
+      </div>
+    </>
+  );
+};
+export default MobilePreview;
