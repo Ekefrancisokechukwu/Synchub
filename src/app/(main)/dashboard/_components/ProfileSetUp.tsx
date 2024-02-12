@@ -6,14 +6,22 @@ import { useFileUploadModal } from "@/hooks/useFileUploadModal";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Doc } from "../../../../../convex/_generated/dataModel";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useAddIconModal } from "@/hooks/useAddIconModal";
 
 const ProfileSetUp = () => {
   const [wordCount, setWordCount] = useState<number>(0);
   const { onOpen } = useFileUploadModal();
+  const { onOpen: handleOpenAddicon } = useAddIconModal();
   const accountQuery = useQuery(api.synchubAccount.accounts);
   const [currentAccount, setCurrentAccount] = useState<Doc<"synchubAccount">>();
-  const [inputValues, setInputValues] = useState({ username: "", bio: "" });
-
+  const [inputValues, setInputValues] = useState({
+    username: "",
+    bio: "",
+    email: "",
+  });
   const update = useMutation(api.synchubAccount.updateAccount);
 
   const handleChange = (
@@ -22,7 +30,7 @@ const ProfileSetUp = () => {
     const { name, value } = e.target;
     setInputValues((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "bio" || name === "username") {
+    if (name === "bio" || name === "username" || name === "email") {
       // Update bio or username in real-time
       if (currentAccount) {
         update({
@@ -39,14 +47,21 @@ const ProfileSetUp = () => {
   };
 
   useEffect(() => {
-    if (accountQuery) {
+    if (
+      accountQuery &&
+      !inputValues.username &&
+      !inputValues.bio &&
+      accountQuery.length
+    ) {
       setCurrentAccount(accountQuery[0]);
       setInputValues({
         username: accountQuery[0]?.username || "",
         bio: accountQuery[0]?.bio || "",
+        email: accountQuery[0]?.email || "",
       });
+      setWordCount(accountQuery[0].bio?.length || 0);
     }
-  }, [accountQuery]);
+  }, [accountQuery, inputValues.bio, inputValues.username]);
 
   return (
     <div>
@@ -56,13 +71,29 @@ const ProfileSetUp = () => {
 
       <div className="bg-white rounded-xl mt-4 p-5">
         <div className="flex items-center gap-x-3">
-          <div
-            style={{ background: currentAccount?.avatar.bg }}
-            onClick={onOpen}
-            className="w-[5rem] h-[5rem] flex-shrink-0 cursor-pointer grid place-items-center rounded-full  text-white text-xl"
-          >
-            @
-          </div>
+          {currentAccount?.imageUrl ? (
+            <Avatar
+              onClick={onOpen}
+              className="w-[5rem] cursor-pointer h-[5rem]"
+            >
+              <AvatarImage
+                className="object-cover"
+                src={accountQuery?.[0].imageUrl}
+              />
+              <AvatarFallback>
+                {currentAccount.username.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          ) : (
+            <div
+              style={{ background: currentAccount?.avatar.bg }}
+              onClick={onOpen}
+              className="w-[5rem] h-[5rem] flex-shrink-0 cursor-pointer grid place-items-center rounded-full  text-white text-xl"
+            >
+              @
+            </div>
+          )}
+
           <div className="flex flex-col gap-y-2 w-full">
             <button
               onClick={onOpen}
@@ -86,11 +117,14 @@ const ProfileSetUp = () => {
             <textarea
               name="bio"
               cols={30}
-              value={inputValues.bio || currentAccount?.bio}
+              value={inputValues.bio}
               onChange={handleChange}
               placeholder="Bio"
               maxLength={100}
-              className="peer min-h-[5rem] resize-none bg-muted w-full px-3 pt-8 pb-4 placeholder-transparent  text-neutral-500 rounded-lg hover:outline text-base focus:outline outline-offset-1 outline-2  outline-stone-400 transition duration-75 ease-out"
+              className={cn(
+                "peer min-h-[5rem] resize-none bg-muted w-full px-3 pt-8 pb-4 placeholder-transparent  text-neutral-500 rounded-lg hover:outline text-base focus:outline outline-offset-1 outline-2   transition duration-75 ease-out",
+                wordCount === 100 ? "outline-red-500" : "outline-stone-400"
+              )}
             ></textarea>
             <label className="absolute -translate-y-1 truncate pointer-events-none text-sm transition-all text-neutral-500 transform  pl-3 top-[10px] left-0 scale-[0.85] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 origin-[0] peer-focus:scale-[0.85] peer-focus:-translate-y-1">
               Bio
@@ -102,6 +136,25 @@ const ProfileSetUp = () => {
               </span>
             </div>
           </div>
+        </div>
+        <div className="flex items-center mt-2 gap-x-1">
+          <div className="flex-1">
+            <Input
+              value={inputValues.email}
+              name="email"
+              handleChange={handleChange}
+              labelText="Email"
+            />
+          </div>
+
+          <Button
+            onClick={handleOpenAddicon}
+            variant={"ghost"}
+            size={"lg"}
+            className="w-full flex-1 text-base font-medium text-neutral-500"
+          >
+            Add Icon
+          </Button>
         </div>
       </div>
     </div>

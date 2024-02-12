@@ -1,6 +1,5 @@
 "use client";
 
-import { useFileUploadModal } from "@/hooks/useFileUploadModal";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -11,9 +10,12 @@ const slide = [
   "/img/tan-4.avif",
 ];
 
-const ProfileImageUpload = () => {
+type Props = {
+  handleClick?: () => void;
+};
+
+const ProfileImageUpload = ({ handleClick }: Props) => {
   const [current, setCurrent] = useState(0);
-  const { onClose } = useFileUploadModal();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,13 +25,9 @@ const ProfileImageUpload = () => {
     return () => clearInterval(interval);
   }, [current]);
 
-  const handleFile = () => {
-    onClose();
-  };
-
   return (
     <li
-      onClick={handleFile}
+      onClick={handleClick}
       className="flex items-center cursor-pointer hover:bg-neutral-100 transition duration-300 p-3 rounded-lg gap-x-5"
     >
       <div className="w-12 h-12 rounded-lg grid place-items-center bg-gradient-to-br from-rose-500 via-blue-700 to-blue-800">

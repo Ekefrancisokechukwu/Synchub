@@ -7,11 +7,11 @@ export default defineSchema({
     name: v.string(),
     userId: v.string(),
     bio: v.optional(v.string()),
-
+    imageUrl: v.optional(v.string()),
+    email: v.optional(v.string()),
     avatar: v.object({
       initail: v.string(),
       bg: v.string(),
-      imageUrl: v.optional(v.string()),
     }),
   }).index("byUserId", ["userId"]),
 });

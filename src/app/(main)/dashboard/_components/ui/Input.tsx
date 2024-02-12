@@ -1,11 +1,22 @@
+import { LucideIcon } from "lucide-react";
+
 type Props = {
   labelText: string;
   value: string;
   name?: string | undefined;
+  hasIcon?: boolean;
+  icon?: LucideIcon;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ labelText, value, name, handleChange }: Props) => {
+const Input = ({
+  labelText,
+  value,
+  name,
+  handleChange,
+  hasIcon,
+  icon: Icon,
+}: Props) => {
   return (
     <div className="relative">
       <input

@@ -64,15 +64,18 @@ const ProfileControl = () => {
               style={{ backgroundColor: `${currentAccount?.avatar.bg}` }}
             >
               <span className="text-lg uppercase text-white text-center">
-                {currentAccount?.avatar.initail}
+                {currentAccount?.username.charAt(0)}
               </span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="mr-12 p-5 rounded-2xl">
             <div className="flex items-center gap-x-3">
-              {currentAccount?.avatar.imageUrl ? (
+              {currentAccount?.imageUrl ? (
                 <Avatar>
-                  <AvatarImage src={currentAccount?.avatar.imageUrl} />
+                  <AvatarImage
+                    className="object-cover"
+                    src={currentAccount?.imageUrl}
+                  />
                   <AvatarFallback>
                     {currentAccount?.username.charAt(1)}
                   </AvatarFallback>
@@ -83,7 +86,7 @@ const ProfileControl = () => {
                   style={{ backgroundColor: `${currentAccount?.avatar.bg}` }}
                 >
                   <span className="text-lg uppercase text-white text-center">
-                    {currentAccount?.avatar.initail}
+                    {currentAccount?.username.charAt(1)}
                   </span>
                 </div>
               )}

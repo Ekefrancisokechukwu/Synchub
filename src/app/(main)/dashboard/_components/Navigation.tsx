@@ -41,7 +41,7 @@ const links: linkProps[] = [
 
   {
     icon: Wrench,
-    path: "#",
+    path: "/dashboard/settings",
     text: "settings",
   },
 ];

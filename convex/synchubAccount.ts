@@ -74,12 +74,8 @@ export const updateAccount = mutation({
     id: v.id("synchubAccount"),
     username: v.optional(v.string()),
     bio: v.optional(v.string()),
-
-    avater: v.optional(
-      v.object({
-        imageUrl: v.optional(v.string()),
-      })
-    ),
+    imageUrl: v.optional(v.string()),
+    email: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -88,7 +84,6 @@ export const updateAccount = mutation({
       throw new Error("Unauthenticated");
     }
 
-    // const userId = identity.subject;
     const { id, ...rest } = args;
 
     await ctx.db.patch(id, { ...rest });
