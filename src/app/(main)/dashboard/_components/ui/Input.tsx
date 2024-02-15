@@ -6,6 +6,7 @@ type Props = {
   name?: string | undefined;
   hasIcon?: boolean;
   icon?: LucideIcon;
+  isValid?: String;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
