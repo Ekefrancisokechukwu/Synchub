@@ -9,6 +9,16 @@ export default defineSchema({
     bio: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     email: v.optional(v.string()),
+    socialIcons: v.optional(
+      v.array(
+        v.object({
+          link: v.string(),
+          icon: v.string(),
+          name: v.string(),
+        })
+      )
+    ),
+
     avatar: v.object({
       initail: v.string(),
       bg: v.string(),

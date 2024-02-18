@@ -8,6 +8,7 @@ import { Copy, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import PublishedLink from "./PublishedLink";
 
 const MobilePreview = () => {
   const currentAccount = useQuery(api.synchubAccount.accounts);
@@ -40,6 +41,7 @@ const MobilePreview = () => {
 
   return (
     <>
+      <PublishedLink />
       <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-neutral-50  w-[320px] mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
         {currentAccount.length > 0 && (
           <>
