@@ -20,12 +20,13 @@ import Link from "next/link";
 import { api } from "../../../../../convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useEffect, useState } from "react";
-import { Doc } from "../../../../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ProfileControl = () => {
   const accounts = useQuery(api.synchubAccount.accounts);
+
   const account = accounts !== undefined && accounts !== null;
   const [currentAccount, setCurrentAccount] = useState<Doc<"synchubAccount">>();
 

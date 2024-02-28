@@ -75,6 +75,7 @@ const AccountSetupForm = () => {
     const promise = createAccount({
       name: formData.name,
       username: `@${formData.username}`,
+      displayUsername: `@${formData.username}`,
       avatar: {
         initail: formData.username.charAt(0),
         bg: randomColor(),

@@ -58,11 +58,13 @@ const IconHandle = () => {
 
   const handleSelectIcon = (icon: IconProps) => {
     setSelectedIcon(icon);
+    setSearchValue("");
   };
 
   const handleCloseModal = () => {
     onClose();
     setSelectedIcon(null);
+    setSearchValue("");
   };
 
   return (

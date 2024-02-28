@@ -18,7 +18,7 @@ const ProfileSetUp = () => {
   const accountQuery = useQuery(api.synchubAccount.accounts);
   const [currentAccount, setCurrentAccount] = useState<Doc<"synchubAccount">>();
   const [inputValues, setInputValues] = useState({
-    username: "",
+    displayUsername: "",
     bio: "",
     email: "",
   });
@@ -30,7 +30,7 @@ const ProfileSetUp = () => {
     const { name, value } = e.target;
     setInputValues((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "bio" || name === "username" || name === "email") {
+    if (name === "bio" || name === "displayUsername" || name === "email") {
       // Update bio or username in real-time
       if (currentAccount) {
         update({
@@ -49,19 +49,19 @@ const ProfileSetUp = () => {
   useEffect(() => {
     if (
       accountQuery &&
-      !inputValues.username &&
+      !inputValues.displayUsername &&
       !inputValues.bio &&
       accountQuery.length
     ) {
       setCurrentAccount(accountQuery[0]);
       setInputValues({
-        username: accountQuery[0]?.username || "",
+        displayUsername: accountQuery[0]?.displayUsername || "",
         bio: accountQuery[0]?.bio || "",
         email: accountQuery[0]?.email || "",
       });
       setWordCount(accountQuery[0].bio?.length || 0);
     }
-  }, [accountQuery, inputValues.bio, inputValues.username]);
+  }, [accountQuery, inputValues.bio, inputValues.displayUsername]);
 
   return (
     <div>
@@ -80,6 +80,7 @@ const ProfileSetUp = () => {
                 className="object-cover"
                 src={accountQuery?.[0].imageUrl}
               />
+
               <AvatarFallback>
                 {currentAccount.username.charAt(0)}
               </AvatarFallback>
@@ -108,11 +109,12 @@ const ProfileSetUp = () => {
         </div>
         <div className="mt-4 flex flex-col gap-y-3">
           <Input
-            name="username"
+            name="displayUsername"
             handleChange={handleChange}
-            value={inputValues.username}
+            value={inputValues.displayUsername}
             labelText="Profile Title"
           />
+
           <div className="relative grow">
             <textarea
               name="bio"

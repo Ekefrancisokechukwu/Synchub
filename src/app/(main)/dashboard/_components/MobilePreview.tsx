@@ -9,25 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import PublishedLink from "./PublishedLink";
+import { useCopy } from "@/hooks/use-copy";
 
 const MobilePreview = () => {
   const currentAccount = useQuery(api.synchubAccount.accounts);
-  const [copied, setCopied] = useState(false);
   const isLoading = currentAccount === undefined || currentAccount === null;
-
-  const handleCopy = (textToCopy: string) => {
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => {
-          setCopied(false);
-        }, 1000);
-      })
-      .catch((err) => {
-        console.error("Error copying text: ", err);
-      });
-  };
+  const { copied, copyToClipboard } = useCopy(
+    !isLoading ? currentAccount[0].email! : ""
+  );
 
   if (isLoading) {
     return (
@@ -41,7 +30,10 @@ const MobilePreview = () => {
 
   return (
     <>
-      <PublishedLink />
+      <div className="mb-8">
+        <PublishedLink />
+      </div>
+
       <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-neutral-50  w-[320px] mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
         {currentAccount.length > 0 && (
           <>
@@ -66,7 +58,7 @@ const MobilePreview = () => {
             </div>
 
             <h1 className="text-center text-xl capitalize  mt-3 font-semibold">
-              {currentAccount[0].username}
+              {currentAccount[0].displayUsername}
             </h1>
             {currentAccount[0].bio && (
               <p className="mt-3 text-center text-sm text-neutral-600 ">
@@ -77,8 +69,8 @@ const MobilePreview = () => {
             {currentAccount[0].email && (
               <div className="flex justify-center mt-4">
                 <button
-                  onClick={() => handleCopy(currentAccount[0].email!)}
-                  className="px-3 py-2 border group text-neutral-500 rounded-sm  text-sm  flex items-center"
+                  onClick={copyToClipboard}
+                  className="px-3 py-2 border group text-neutral-500 rounded-lg  text-sm  flex items-center"
                 >
                   <Copy className="mr-2 w-4 h-3 " />{" "}
                   <span className="group-active:scale-90 transition-all duration-300">
@@ -91,7 +83,7 @@ const MobilePreview = () => {
         )}
       </ScrollArea>
 
-      <div className="grid place-items-center mt-7">
+      {/* <div className="grid place-items-center mt-7">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -99,7 +91,7 @@ const MobilePreview = () => {
         >
           Device Preview
         </motion.button>
-      </div>
+      </div> */}
     </>
   );
 };

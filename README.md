@@ -34,3 +34,44 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<!--
+<motion.button
+        variants={buttonVariants}
+        initial="initial"
+        whileHover="hover"
+        whileTap={"tap"}
+        className="text-white outline-offset-4 overflow-hidden relative rounded-full bg-pink-800 shadow-xl  "
+      >
+        <motion.span
+          variants={spanVariants}
+          className="px-14 py-2.5  rounded-full font-medium text-xl bg-gradient-to-b from-pink-400 to-pink-600  block"
+        >
+          Play
+        </motion.span>
+      </motion.button> -->
+
+<!--
+const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
+
+const spanVariants = {
+  hover: {
+    translateY: -5,
+  },
+
+  tap: {
+    translateY: 0,
+    scale: 0.95,
+  },
+
+  initial: {
+    translateY: -4,
+  },
+}; -->

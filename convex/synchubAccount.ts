@@ -35,15 +35,22 @@ export const allAccounts = query({
 export const createAccount = mutation({
   args: {
     username: v.string(),
+    displayUsername: v.string(),
     name: v.string(),
     avatar: v.object({ initail: v.string(), bg: v.string() }),
   },
-  handler: async (ctx, { username, name, avatar }) => {
+  handler: async (ctx, { username, name, avatar, displayUsername }) => {
     const identity = await ctx.auth.getUserIdentity();
 
     if (identity) {
       const userId = identity.subject;
-      await ctx.db.insert("synchubAccount", { name, username, userId, avatar });
+      await ctx.db.insert("synchubAccount", {
+        name,
+        username,
+        userId,
+        avatar,
+        displayUsername,
+      });
     }
   },
 });
@@ -72,7 +79,7 @@ export const updateUsername = mutation({
 export const updateAccount = mutation({
   args: {
     id: v.id("synchubAccount"),
-    username: v.optional(v.string()),
+    displayUsername: v.optional(v.string()),
     bio: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     email: v.optional(v.string()),
@@ -89,3 +96,17 @@ export const updateAccount = mutation({
     await ctx.db.patch(id, { ...rest });
   },
 });
+
+export const getAccount = query({
+  args: { usernameId: v.string() },
+  handler: async (ctx, args) => {
+    const account = await ctx.db
+      .query("synchubAccount")
+      .filter((q) => q.eq(q.field("username"), args.usernameId))
+      .collect();
+
+    return account;
+  },
+});
+
+// export const addIcon = mutation({})

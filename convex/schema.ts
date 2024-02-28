@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   synchubAccount: defineTable({
     username: v.string(),
+    displayUsername: v.string(),
     name: v.string(),
     userId: v.string(),
     bio: v.optional(v.string()),
