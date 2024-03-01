@@ -23,18 +23,21 @@ import { useEffect, useState } from "react";
 import { Doc, Id } from "../../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
 
 const ProfileControl = () => {
   const accounts = useQuery(api.synchubAccount.accounts);
 
   const account = accounts !== undefined && accounts !== null;
   const [currentAccount, setCurrentAccount] = useState<Doc<"synchubAccount">>();
+  const { setUser, currentUser } = useCurrentUser();
 
   useEffect(() => {
     if (account && accounts.length > 0) {
       setCurrentAccount(accounts[0]);
+      setUser(accounts[0]);
     }
-  }, [account, accounts]);
+  }, [account, accounts, setUser]);
 
   return (
     <div className="fixed right-[3rem] top-3 w-[3rem] bg-white grid z-20 place-items-center shadow-xl h-[3rem] rounded-full">
@@ -75,7 +78,7 @@ const ProfileControl = () => {
                 <Avatar>
                   <AvatarImage
                     className="object-cover"
-                    src={currentAccount?.imageUrl}
+                    src={currentUser?.imageUrl}
                   />
                   <AvatarFallback>
                     {currentAccount?.username.charAt(1)}

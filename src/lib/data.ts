@@ -1,78 +1,78 @@
-import { SlSocialFacebook, SlSocialBehance } from "react-icons/sl";
-
-import { BsTwitterX } from "react-icons/bs";
-import {
-  FaSnapchat,
-  FaInstagram,
-  FaWhatsapp,
-  FaGithub,
-  FaAmazon,
-  FaTwitch,
-} from "react-icons/fa6";
-import { FiYoutube, FiLinkedin } from "react-icons/fi";
-
-import { PiTiktokLogoLight } from "react-icons/pi";
+import * as SlIcons from "react-icons/sl";
+import * as BsIcons from "react-icons/bs";
+import * as FaIcons from "react-icons/fa6";
+import * as FiIoncs from "react-icons/fi";
+import * as PiIcons from "react-icons/pi";
+import { IconType } from "react-icons/lib";
 import { IconProps } from "@/components/modals/IconHandle";
+
+export const IconsReact = {
+  ...BsIcons,
+  ...FaIcons,
+  ...FiIoncs,
+  ...PiIcons,
+  ...SlIcons,
+};
 
 export const SocialIcons: IconProps[] = [
   {
-    icon: SlSocialFacebook,
+    icon: "SlSocialFacebook",
     name: "facebook",
-    featured: false,
+    added: false,
   },
   {
-    icon: BsTwitterX,
+    icon: "BsTwitterX",
     name: "Twitter X",
-    featured: true,
+    added: false,
   },
   {
-    icon: FaSnapchat,
+    icon: "FaSnapchat",
     name: "Snapchat",
-    featured: false,
+    added: false,
   },
   {
-    icon: FaInstagram,
+    icon: "FaInstagram",
     name: "Instagram",
-    featured: false,
+    added: false,
   },
   {
-    icon: FiYoutube,
-    featured: false,
+    icon: "FiYoutube",
+    added: false,
     name: "youtube",
   },
   {
-    icon: PiTiktokLogoLight,
+    icon: "PiTiktokLogoLight",
     name: "tiktok",
-    featured: false,
+    added: false,
   },
   {
-    icon: FaWhatsapp,
+    icon: "FaWhatsapp",
     name: "whatsapp",
-    featured: false,
+    added: false,
   },
   {
-    icon: FaGithub,
+    icon: "FaGithub",
     name: "github",
-    featured: true,
+    added: false,
   },
   {
-    icon: FaAmazon,
+    icon: "FaAmazon",
     name: "amazone",
-    featured: false,
+    added: false,
   },
   {
-    icon: FiLinkedin,
+    icon: "FiLinkedin",
     name: "Linkedin",
-    featured: false,
+    added: false,
   },
   {
-    icon: FaTwitch,
+    icon: "FaTwitch",
     name: "Twitch",
-    featured: false,
+    added: false,
   },
   {
-    icon: SlSocialBehance,
+    icon: "SlSocialBehance",
     name: "Behance",
-    featured: false,
+    added: false,
   },
 ];

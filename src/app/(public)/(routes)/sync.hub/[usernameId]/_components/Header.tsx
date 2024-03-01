@@ -2,13 +2,25 @@ import Image from "next/image";
 import { Doc } from "../../../../../../../convex/_generated/dataModel";
 import { useCopy } from "@/hooks/use-copy";
 import { Copy } from "lucide-react";
+import Link from "next/link";
+import { IconsReact } from "@/lib/data";
 
 type Props = {
   avater: Doc<"synchubAccount">;
 };
 
 const Header = ({ avater }: Props) => {
-  const { imageUrl, username, avatar, email, displayUsername, bio } = avater;
+  console.log(avater);
+
+  const {
+    imageUrl,
+    username,
+    avatar,
+    email,
+    displayUsername,
+    bio,
+    socialIcons,
+  } = avater;
 
   const { copied, copyToClipboard } = useCopy(email || "");
 
@@ -39,7 +51,7 @@ const Header = ({ avater }: Props) => {
       </h1>
 
       {bio && (
-        <p className="sm:text-lg text-base mt-4 font-medium text-center">
+        <p className="sm:text-lg text-neutral-600 text-base mt-4 font-medium text-center">
           {bio}
         </p>
       )}
@@ -54,6 +66,28 @@ const Header = ({ avater }: Props) => {
             {copied ? "Copied" : "  E-mail"}
           </span>
         </button>
+      )}
+
+      {socialIcons?.length! > 0 && (
+        <div className="mt-4 flex  justify-center items-center gap-x-2">
+          {socialIcons
+            ?.filter((icon) => icon.added === true && !icon.hidden)
+            .map((socialIcon, i) => {
+              const iconName = socialIcon.icon as "Bs0Circle";
+              const Icon = IconsReact[iconName];
+
+              return (
+                <Link
+                  target="_blank"
+                  href={socialIcon.link}
+                  key={i}
+                  className="min-w-14 h-12 bg-neutral-50 border text-neutral-500 transition duration-300 hover:text-neutral-900 text-xl rounded-lg grid place-items-center"
+                >
+                  <Icon />
+                </Link>
+              );
+            })}
+        </div>
       )}
     </div>
   );

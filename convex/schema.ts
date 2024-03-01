@@ -16,10 +16,11 @@ export default defineSchema({
           link: v.string(),
           icon: v.string(),
           name: v.string(),
+          added: v.boolean(),
+          hidden: v.boolean(),
         })
       )
     ),
-
     avatar: v.object({
       initail: v.string(),
       bg: v.string(),

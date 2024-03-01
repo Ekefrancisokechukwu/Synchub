@@ -30,7 +30,7 @@ const links: linkProps[] = [
   },
   {
     icon: StretchHorizontal,
-    path: "",
+    path: "/dashboard/links",
     text: "links",
   },
 

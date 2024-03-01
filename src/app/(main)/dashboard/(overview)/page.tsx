@@ -8,10 +8,13 @@ import MobilePreview from "../_components/MobilePreview";
 import { api } from "../../../../../convex/_generated/api";
 import ProfileControl from "../_components/profile-control";
 import AccountSetupForm from "../account/_components/AccountSetupForm";
+import SocialIcons from "../_components/SocialIcons";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
 
 const Page = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const accounts = useQuery(api.synchubAccount.accounts);
+  const { currentUser } = useCurrentUser();
 
   const isAccount =
     accounts === undefined || accounts === null || accounts.length < 1;
@@ -36,8 +39,14 @@ const Page = () => {
   }
 
   return (
-    <div>
+    <div className="pb-5">
       <ProfileSetUp />
+
+      {currentUser &&
+        currentUser.socialIcons !== undefined &&
+        currentUser.socialIcons.filter((icon) => icon.added).length > 0 && (
+          <SocialIcons />
+        )}
     </div>
   );
 };

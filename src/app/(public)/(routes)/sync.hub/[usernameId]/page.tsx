@@ -18,6 +18,8 @@ const Overview = ({ params }: DocumentIdPageProps) => {
     usernameId: decodedParams,
   });
 
+  console.log(decodedParams, "@Specter");
+
   if (account === undefined) {
     return;
   }
@@ -27,12 +29,11 @@ const Overview = ({ params }: DocumentIdPageProps) => {
   );
 
   const { currentUser } = objUser;
-
-  console.log(currentUser);
+  console.log(account);
 
   return (
     <div className="sm:px-0 px-5">
-      <div className="max-w-[45rem] w-full  pt-14 pb-7  mx-auto">
+      <div className="max-w-[40rem] w-full  pt-14 pb-7  mx-auto">
         <Header avater={currentUser} />
       </div>
     </div>

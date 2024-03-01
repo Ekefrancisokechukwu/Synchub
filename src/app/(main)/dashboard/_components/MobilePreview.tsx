@@ -7,13 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Copy, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import React, { useState } from "react";
 import PublishedLink from "./PublishedLink";
 import { useCopy } from "@/hooks/use-copy";
+import Link from "next/link";
+import { IconsReact } from "@/lib/data";
+import { IconType } from "react-icons/lib";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
 
 const MobilePreview = () => {
   const currentAccount = useQuery(api.synchubAccount.accounts);
   const isLoading = currentAccount === undefined || currentAccount === null;
+  const { currentUser } = useCurrentUser();
   const { copied, copyToClipboard } = useCopy(
     !isLoading ? currentAccount[0].email! : ""
   );
@@ -34,7 +39,7 @@ const MobilePreview = () => {
         <PublishedLink />
       </div>
 
-      <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-neutral-50  w-[320px] mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
+      <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-neutral-50  xl:w-[320px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
         {currentAccount.length > 0 && (
           <>
             <div className="pt-7">
@@ -79,19 +84,35 @@ const MobilePreview = () => {
                 </button>
               </div>
             )}
+
+            {currentAccount[0].socialIcons?.length! > 0 && (
+              <div className="mt-4 w-[15rem] mx-auto flex items-center justify-center gap-x-2">
+                {currentAccount[0].socialIcons
+                  ?.filter(
+                    (icon) => icon.added === true && icon.hidden === false
+                  )
+                  ?.map((icon, i) => {
+                    const iconName = icon.icon as "Bs0Circle";
+
+                    const Icon = IconsReact[iconName];
+
+                    return (
+                      <Link
+                        key={i}
+                        href={icon.link}
+                        className="p-2 border  rounded-xl hover:text-gray-800 transition duration-200 text-gray-500"
+                      >
+                        <span className="text-xl w-4 h-4 ">
+                          <Icon className="text-sm" />
+                        </span>
+                      </Link>
+                    );
+                  })}
+              </div>
+            )}
           </>
         )}
       </ScrollArea>
-
-      {/* <div className="grid place-items-center mt-7">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="px-5 py-2 text-sm hover:shadow-xl  rounded-full text-white bg-blue-600 inline-block  text-center"
-        >
-          Device Preview
-        </motion.button>
-      </div> */}
     </>
   );
 };

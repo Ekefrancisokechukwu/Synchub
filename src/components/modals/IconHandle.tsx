@@ -8,26 +8,74 @@ import {
 import { useAddIconModal } from "@/hooks/useAddIconModal";
 import { ScrollArea } from "../ui/scroll-area";
 import { ChevronLeft, ChevronRightIcon, Facebook } from "lucide-react";
-import { SocialIcons } from "@/lib/data";
+import { IconsReact, SocialIcons } from "@/lib/data";
 import { useEffect, useState } from "react";
-import { IconType } from "react-icons/lib";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
 
 export type IconProps = {
-  icon: IconType;
+  icon: string;
   name: string;
-  featured: boolean;
+  added: boolean;
+};
+
+export type ClickProp = {
+  icon: null | any;
+  name: string;
+  link: string;
+  added?: boolean;
+};
+
+const Variants = {
+  from: { opacity: 0, y: 15 },
+  to: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.03 * i },
+  }),
+};
+
+type T = {
+  link: string;
+  name: string;
+  icon: string;
+  added: boolean;
 };
 
 const IconHandle = () => {
   const { isOpen, onClose } = useAddIconModal();
-
-  const [icons, setIcons] = useState<IconProps[]>(SocialIcons);
+  const [icons, setIcons] = useState<ClickProp[] | IconProps[]>(SocialIcons);
   const [searchValue, setSearchValue] = useState("");
   const [selectedIconValue, setSlectedIconValue] = useState("");
   const [isValid, setIsValid] = useState<boolean | null>(null);
-  const [selectedIcon, setSelectedIcon] = useState<IconProps | null>(null);
+  const [selectedIcon, setSelectedIcon] = useState<
+    ClickProp | IconProps | null
+  >(null);
+  const update = useMutation(api.synchubAccount.updateAccount);
+  const { currentUser } = useCurrentUser();
+
+  console.log(currentUser);
+
+  const addIcon = (linkIcon: T) => {
+    if (!currentUser) return;
+
+    const updatedIcons = currentUser.socialIcons!.map((icon) =>
+      icon.name === linkIcon.name
+        ? { ...icon, link: selectedIconValue, added: !icon.added }
+        : icon
+    );
+
+    update({
+      id: currentUser?._id,
+      socialIcons: updatedIcons,
+    });
+
+    handleCloseModal();
+    setSlectedIconValue("");
+  };
 
   const handleSelectedIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSlectedIconValue(e.target.value);
@@ -39,21 +87,14 @@ const IconHandle = () => {
     return linkPattern.test(link);
   };
 
-  const newFilteredIcon: IconProps[] = SocialIcons.filter((icon) =>
-    icon.name?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const newFilteredIcon: IconProps[] =
+    currentUser?.socialIcons !== undefined &&
+    currentUser?.socialIcons.filter((icon) =>
+      icon.name?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-  };
-
-  const Variants = {
-    from: { opacity: 0, y: 15 },
-    to: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: 0.03 * i },
-    }),
   };
 
   const handleSelectIcon = (icon: IconProps) => {
@@ -87,38 +128,60 @@ const IconHandle = () => {
                 <ScrollArea className="mt-2 h-[15rem]">
                   <motion.ul className="mt-2 space-y-2">
                     {searchValue === "" ? (
-                      icons.map((icon, i) => {
-                        const { icon: Icon, name } = icon;
+                      currentUser &&
+                      currentUser.socialIcons !== undefined &&
+                      currentUser.socialIcons?.length > 0 &&
+                      currentUser?.socialIcons.map((icon, i) => {
+                        const { name, added } = icon;
+
+                        const inconName = icon.icon as "Bs0Circle";
+                        const Icon = IconsReact[inconName];
+
                         return (
                           <motion.li
-                            onClick={() => handleSelectIcon(icon)}
                             variants={Variants}
                             initial="from"
                             whileInView="to"
                             custom={i}
                             viewport={{ once: true }}
                             key={i}
-                            className="flex py-4 px-3  justify-between cursor-pointer hover:bg-neutral-100 duration-300 rounded-lg"
+                            className=""
                           >
-                            <div className="flex gap-x-3 items-center">
-                              <span className="text-lg">
-                                <Icon />
-                              </span>
+                            <button
+                              disabled={added}
+                              onClick={() => handleSelectIcon(icon)}
+                              className="flex py-4 px-3 w-full disabled:cursor-default disabled:opacity-50  justify-between cursor-pointer hover:bg-neutral-100 duration-300 rounded-lg"
+                            >
+                              <div className="flex gap-x-3 items-center">
+                                <span className="text-lg">
+                                  <Icon />
+                                </span>
 
-                              <span className="font-medium capitalize">
-                                {name}
-                              </span>
-                            </div>
+                                <span className="font-medium capitalize">
+                                  {name}
+                                </span>
+                              </div>
 
-                            <span>
-                              <ChevronRightIcon className="w-5 h-5 text-neutral-900" />
-                            </span>
+                              {added ? (
+                                <span className="text-base text-green-600">
+                                  Added
+                                </span>
+                              ) : (
+                                <span>
+                                  <ChevronRightIcon className="w-5 h-5 text-neutral-900" />
+                                </span>
+                              )}
+                            </button>
                           </motion.li>
                         );
                       })
                     ) : searchValue && newFilteredIcon.length > 0 ? (
                       newFilteredIcon.map((icon, i) => {
-                        const { icon: Icon, name } = icon;
+                        const { name, added } = icon;
+                        const iconName = icon.icon as "Bs0Circle";
+
+                        const Icon = IconsReact[iconName];
+
                         return (
                           <motion.li
                             onClick={() => handleSelectIcon(icon)}
@@ -128,21 +191,31 @@ const IconHandle = () => {
                             custom={i}
                             viewport={{ once: true }}
                             key={i}
-                            className="flex py-4 px-3  justify-between cursor-pointer hover:bg-neutral-100 duration-300 rounded-lg"
                           >
-                            <div className="flex gap-x-3 items-center">
-                              <span className="text-lg">
-                                <Icon />
-                              </span>
+                            <button
+                              disabled={added}
+                              className="flex py-4 px-3 w-full disabled:cursor-default disabled:opacity-40  justify-between cursor-pointer hover:bg-neutral-100 duration-300 rounded-lg"
+                            >
+                              <div className="flex gap-x-3 items-center">
+                                <span className="text-lg">
+                                  <Icon />
+                                </span>
 
-                              <span className="font-medium capitalize">
-                                {name}
-                              </span>
-                            </div>
+                                <span className="font-medium capitalize">
+                                  {name}
+                                </span>
+                              </div>
 
-                            <span>
-                              <ChevronRightIcon className="w-5 h-5 text-neutral-900" />
-                            </span>
+                              {added ? (
+                                <span className="text-base text-green-600">
+                                  Added
+                                </span>
+                              ) : (
+                                <span>
+                                  <ChevronRightIcon className="w-5 h-5 text-neutral-900" />
+                                </span>
+                              )}
+                            </button>
                           </motion.li>
                         );
                       })
@@ -187,6 +260,14 @@ const IconHandle = () => {
 
               <button
                 disabled={selectedIconValue === "" || !isValid}
+                onClick={() =>
+                  addIcon({
+                    link: selectedIconValue,
+                    name: selectedIcon.name,
+                    icon: selectedIcon.icon,
+                    added: true,
+                  })
+                }
                 className="block py-2 w-full rounded-lg mt-3 px-2 text-lg font-medium disabled:bg-neutral-300 disabled:text-stone-500  text-gray-100 bg-neutral-900 "
               >
                 Add Icon

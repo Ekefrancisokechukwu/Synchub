@@ -6,9 +6,20 @@ import GoogleAccount from "./_components/GoogleAccount";
 import { api } from "../../../../../convex/_generated/api";
 import SynchubAccount from "./_components/SynchubAccount";
 import SynchubAccountLoading from "./_components/ui/SynchubAccountLoading";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
+import { useEffect } from "react";
 
 const Account = () => {
   const accounts = useQuery(api.synchubAccount.accounts);
+
+  const { setUser, currentUser } = useCurrentUser();
+
+  useEffect(() => {
+    if (accounts !== undefined && accounts !== null && accounts.length > 0) {
+      console.log(accounts);
+      setUser(accounts[0]);
+    }
+  }, [accounts, currentUser, setUser]);
 
   return (
     <div className="pt-3 pb-5 px-5">

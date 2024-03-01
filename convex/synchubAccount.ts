@@ -1,4 +1,6 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
+
+import { IconType } from "react-icons/lib";
 
 import { v } from "convex/values";
 
@@ -38,8 +40,22 @@ export const createAccount = mutation({
     displayUsername: v.string(),
     name: v.string(),
     avatar: v.object({ initail: v.string(), bg: v.string() }),
+    socialIcons: v.optional(
+      v.array(
+        v.object({
+          link: v.string(),
+          icon: v.string(),
+          name: v.string(),
+          added: v.boolean(),
+          hidden: v.boolean(),
+        })
+      )
+    ),
   },
-  handler: async (ctx, { username, name, avatar, displayUsername }) => {
+  handler: async (
+    ctx,
+    { username, name, avatar, displayUsername, socialIcons }
+  ) => {
     const identity = await ctx.auth.getUserIdentity();
 
     if (identity) {
@@ -50,6 +66,7 @@ export const createAccount = mutation({
         userId,
         avatar,
         displayUsername,
+        socialIcons,
       });
     }
   },
@@ -83,7 +100,19 @@ export const updateAccount = mutation({
     bio: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     email: v.optional(v.string()),
+    socialIcons: v.optional(
+      v.array(
+        v.object({
+          link: v.string(),
+          icon: v.string(),
+          name: v.string(),
+          added: v.boolean(),
+          hidden: v.boolean(),
+        })
+      )
+    ),
   },
+
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
@@ -108,5 +137,3 @@ export const getAccount = query({
     return account;
   },
 });
-
-// export const addIcon = mutation({})
