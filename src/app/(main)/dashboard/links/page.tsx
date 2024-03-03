@@ -1,4 +1,11 @@
+import { DndContext } from "@dnd-kit/core";
+import LinksContainer from "./_components/LinksContainer";
+
 const Links = () => {
-  return <div>Links</div>;
+  return (
+    <div className="pb-5">
+      <LinksContainer />
+    </div>
+  );
 };
 export default Links;

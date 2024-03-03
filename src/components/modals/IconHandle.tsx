@@ -47,7 +47,6 @@ type T = {
 
 const IconHandle = () => {
   const { isOpen, onClose } = useAddIconModal();
-  const [icons, setIcons] = useState<ClickProp[] | IconProps[]>(SocialIcons);
   const [searchValue, setSearchValue] = useState("");
   const [selectedIconValue, setSlectedIconValue] = useState("");
   const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -56,8 +55,6 @@ const IconHandle = () => {
   >(null);
   const update = useMutation(api.synchubAccount.updateAccount);
   const { currentUser } = useCurrentUser();
-
-  console.log(currentUser);
 
   const addIcon = (linkIcon: T) => {
     if (!currentUser) return;

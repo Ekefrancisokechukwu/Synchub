@@ -31,7 +31,7 @@ const PublishedLink = () => {
         whileHover={{ scale: 1.1 }}
         transition={{ type: "tween" }}
         onClick={copyToClipboard}
-        className="px-4 py-1 rounded-full flex items-center mx-auto gap-x-2 bg-blue-500 text-white font-medium text-sm"
+        className="px-4 py-1 rounded-full flex items-center mx-auto gap-x-2 bg-transparent border text-gray-500 font-medium text-sm"
       >
         <motion.span className="inline-block">
           {copied ? (

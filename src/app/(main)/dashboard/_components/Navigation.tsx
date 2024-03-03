@@ -61,7 +61,7 @@ const Navigation = () => {
     <aside
       className={cn(
         "h-full relative bg-white  flex-none block  border-r transition-width duration-300 ease-in-out",
-        collapsed ? "w-[69px]" : "w-[170px]"
+        collapsed ? "w-[69px]" : "md:w-[170px]"
       )}
     >
       <div className="px-3 overflow-hidden">
@@ -100,7 +100,7 @@ const Navigation = () => {
         <div className="h-14 relative"></div>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-8 grid place-items-center h-8 rounded-full border absolute right-[-1rem] z-30 bg-white hover:scale-110 transform transition-all duration-200 bottom-[5.5rem]"
+          className="w-8 md:grid  hidden place-items-center h-8 rounded-full border absolute right-[-1rem] z-30 bg-white hover:scale-110 transform transition-all duration-200 bottom-[5.5rem]"
         >
           <ChevronLeft
             className={`text-neutral-600 w-5 h-5 transition-all duration-200 ${

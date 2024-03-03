@@ -4,7 +4,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Copy, Loader2 } from "lucide-react";
+import { Copy, Loader, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
@@ -25,11 +25,13 @@ const MobilePreview = () => {
 
   if (isLoading) {
     return (
-      <ScrollArea className="h-[85vh] rounded-3xl px-4  bg-gray-200  w-[330px] mx-auto shadow-[0px_0px_0px_11px_#2c2c2b,_0px_0px_0px_13px_#1a1919,_0px_0px_0px_20px_#0e0e0d] ">
-        <Button size={"icon"} variant={"ghost"} className="animate-spin">
-          <Loader2 />
-        </Button>
-      </ScrollArea>
+      <>
+        <ScrollArea className="h-[80vh] mt-8 grid place-items-center rounded-3xl px-4  bg-neutral-50  xl:w-[320px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
+          <Button size={"icon"} variant={"ghost"} className="animate-spin">
+            <Loader />
+          </Button>
+        </ScrollArea>
+      </>
     );
   }
 

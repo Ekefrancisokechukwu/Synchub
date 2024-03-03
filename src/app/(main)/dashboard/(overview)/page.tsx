@@ -4,7 +4,6 @@ import { useConvexAuth, useQuery } from "convex/react";
 import SkeletonDashboard from "../_components/SkeletonDashboard";
 import { redirect } from "next/navigation";
 import ProfileSetUp from "../_components/ProfileSetUp";
-import MobilePreview from "../_components/MobilePreview";
 import { api } from "../../../../../convex/_generated/api";
 import ProfileControl from "../_components/profile-control";
 import AccountSetupForm from "../account/_components/AccountSetupForm";
@@ -41,7 +40,6 @@ const Page = () => {
   return (
     <div className="pb-5">
       <ProfileSetUp />
-
       {currentUser &&
         currentUser.socialIcons !== undefined &&
         currentUser.socialIcons.filter((icon) => icon.added).length > 0 && (

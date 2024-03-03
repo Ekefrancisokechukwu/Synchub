@@ -144,7 +144,7 @@ const SocialIcons = () => {
                 <div className="flex items-center text-xl gap-x-4">
                   <motion.button
                     onClick={() => handleSetInvisble(icon)}
-                    className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+                    className="p-2 transition duration-300 text-gray-400 rounded-xl hover:bg-neutral-100 "
                   >
                     <AnimatePresence mode="wait" initial>
                       <motion.div
@@ -158,7 +158,7 @@ const SocialIcons = () => {
                   </motion.button>
                   <button
                     onClick={() => deleteIcon(icon.name)}
-                    className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+                    className="p-2 transition duration-300 text-gray-400 rounded-xl hover:bg-neutral-100 "
                   >
                     <BsTrash3 />
                   </button>

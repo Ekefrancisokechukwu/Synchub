@@ -29,7 +29,7 @@ export default function DashboardLayout({
       <main className="grow h-screen flex   overflow-y-scroll">
         <div className="px-11 flex-[50%]  pt-5">{children}</div>
 
-        {!isLoading && pathname !== "/dashboard/account" && (
+        {pathname !== "/dashboard/account" && (
           <div className="grow md:block hidden border-l sticky top-0 px-10 py-5 h-screen">
             <MobilePreview />
           </div>
