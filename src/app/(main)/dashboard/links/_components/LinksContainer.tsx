@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SingleLink from "./SingleLink";
 import {
   arrayMove,
@@ -18,46 +18,51 @@ import {
   DragEndEvent,
 } from "@dnd-kit/core";
 import { v4 as uuidv4 } from "uuid";
-
-export type LinksProps = {
-  txt: string;
-  headline?: boolean;
-  link?: string;
-  visible: boolean;
-  img?: string;
-  id: string;
-};
+import { useMutation } from "convex/react";
+import { api } from "../../../../../../convex/_generated/api";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
+import Spinner from "@/components/ui/Spinner";
 
 const LinksContainer = () => {
-  const [items, setItems] = useState([
-    { id: 1, t: "A" },
-    { id: 2, t: "1" },
-  ]);
+  const { currentUser } = useCurrentUser();
+  const updatelinks = useMutation(api.synchubAccount.updateLinks);
+
   const [links, setLinks] = useState<LinksProps[]>([]);
 
+  const loading = !currentUser || currentUser === undefined;
+
   const createNewLink = () => {
+    if (!currentUser) return;
+
     const newLink = {
       id: uuidv4(),
-      visible: true,
+      visible: false,
       txt: "",
       link: "",
       img: "",
     };
+    const linksArray = currentUser.links || [];
 
-    setLinks([newLink, ...links]);
-
-    setItems([{ id: Math.floor(Math.random() * 100), t: "" }, ...items]);
+    updatelinks({
+      id: currentUser._id,
+      links: [newLink, ...linksArray!],
+    });
   };
 
   const createNewHeadLine = () => {
+    if (!currentUser) return;
+
     const newHeadline = {
       id: uuidv4(),
-      visible: true,
+      visible: false,
       txt: "",
       headline: true,
     };
 
-    setLinks([newHeadline, ...links]);
+    updatelinks({
+      id: currentUser._id,
+      links: [newHeadline, ...currentUser.links!],
+    });
   };
 
   const sensors = useSensors(
@@ -66,6 +71,19 @@ const LinksContainer = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  useEffect(() => {
+    if (!currentUser?.links) return;
+    setLinks(currentUser?.links!);
+  }, [currentUser?.links, links]);
+
+  if (loading) {
+    return (
+      <div className="p-5">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <DndContext
@@ -87,23 +105,30 @@ const LinksContainer = () => {
           Add New Link
         </button>
       </div>
+
       <div className="flex flex-col mt-11 gap-y-4">
         <SortableContext items={links} strategy={verticalListSortingStrategy}>
-          {links.map((link, i) => (
-            <SingleLink key={link.id} link={link} />
-          ))}
+          {currentUser.links !== undefined &&
+            links?.map((link, i) => <SingleLink key={link.id} link={link} />)}
         </SortableContext>
       </div>
     </DndContext>
   );
 
   function handleDragEnd(event: DragEndEvent) {
+    if (!currentUser) return;
     const { active, over } = event;
 
     if (active.id !== over?.id) {
       setLinks((items) => {
         const oldIndex = links.findIndex((item) => item.id === active.id);
         const newIndex = links.findIndex((item) => item.id === over?.id);
+        const newItems = arrayMove(items, oldIndex, newIndex);
+
+        updatelinks({
+          id: currentUser._id!,
+          links: newItems,
+        });
 
         return arrayMove(items, oldIndex, newIndex);
       });

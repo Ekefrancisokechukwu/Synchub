@@ -126,6 +126,37 @@ export const updateAccount = mutation({
   },
 });
 
+export const updateLinks = mutation({
+  args: {
+    id: v.id("synchubAccount"),
+
+    links: v.optional(
+      v.array(
+        v.object({
+          txt: v.string(),
+          headline: v.optional(v.boolean()),
+          link: v.optional(v.string()),
+          visible: v.boolean(),
+          img: v.optional(v.string()),
+          id: v.string(),
+        })
+      )
+    ),
+  },
+
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const { id, ...rest } = args;
+
+    await ctx.db.patch(id, { ...rest });
+  },
+});
+
 export const getAccount = query({
   args: { usernameId: v.string() },
   handler: async (ctx, args) => {

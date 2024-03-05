@@ -19,18 +19,6 @@ const SkeletonDashboard = () => {
               </div>
             </div>
           </section>
-
-          <section className=" flex-1 px-5">
-            <div className="border w-[30rem] p-3 rounded-xl ">
-              <Skeleton className="w-[4rem] h-[4rem] rounded-full mx-auto" />
-              <div className="space-y-5 mt-5">
-                <Skeleton className="w-[full] h-[3rem] rounded-full mx-auto" />
-                <Skeleton className="w-[full] h-[3rem] rounded-full mx-auto" />
-                <Skeleton className="w-[full] h-[3rem] rounded-full mx-auto" />
-                <Skeleton className="w-[full] h-[3rem] rounded-full mx-auto" />
-              </div>
-            </div>
-          </section>
         </div>
       </div>
     </div>

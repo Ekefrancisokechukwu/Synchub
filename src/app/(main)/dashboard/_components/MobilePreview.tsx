@@ -14,13 +14,14 @@ import Link from "next/link";
 import { IconsReact } from "@/lib/data";
 import { IconType } from "react-icons/lib";
 import { useCurrentUser } from "@/hooks/useCurrentAccount";
+import MobileLinksContainer from "./MobileLinksContainer";
 
 const MobilePreview = () => {
   const currentAccount = useQuery(api.synchubAccount.accounts);
   const isLoading = currentAccount === undefined || currentAccount === null;
   const { currentUser } = useCurrentUser();
   const { copied, copyToClipboard } = useCopy(
-    !isLoading ? currentAccount[0].email! : ""
+    !isLoading ? currentAccount[0]?.email! : ""
   );
 
   if (isLoading) {
@@ -111,6 +112,10 @@ const MobilePreview = () => {
                     );
                   })}
               </div>
+            )}
+
+            {currentAccount[0].links?.length! > 0 && (
+              <MobileLinksContainer links={currentAccount[0].links!} />
             )}
           </>
         )}

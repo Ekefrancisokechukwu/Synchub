@@ -46,7 +46,8 @@ const Header = ({ avater }: Props) => {
           <span>{username.charAt(0)}</span>
         </div>
       )}
-      <h1 className="mt-4 sm:text-4xl text-2xl font-semibold capitalize">
+
+      <h1 className="mt-4 sm:text-4xl text-lg font-medium capitalize">
         {displayUsername}
       </h1>
 
@@ -81,7 +82,7 @@ const Header = ({ avater }: Props) => {
                   target="_blank"
                   href={socialIcon.link}
                   key={i}
-                  className="min-w-14 h-12 bg-neutral-50 border text-neutral-500 transition duration-300 hover:text-neutral-900 text-xl rounded-lg grid place-items-center"
+                  className="w-14 h-12 flex-shrink-0 bg-neutral-50 border text-neutral-500 transition duration-300 hover:text-neutral-900 text-[1.6rem] rounded-lg grid place-items-center"
                 >
                   <Icon />
                 </Link>

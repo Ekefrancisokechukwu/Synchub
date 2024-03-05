@@ -21,9 +21,36 @@ export default defineSchema({
         })
       )
     ),
+    links: v.optional(
+      v.array(
+        v.object({
+          txt: v.string(),
+          headline: v.optional(v.boolean()),
+          link: v.optional(v.string()),
+          visible: v.boolean(),
+          img: v.optional(v.string()),
+          id: v.string(),
+        })
+      )
+    ),
     avatar: v.object({
       initail: v.string(),
       bg: v.string(),
     }),
   }).index("byUserId", ["userId"]),
+  // synchubAccountLinks: defineTable({
+  //   userId: v.string(),
+  //   links: v.optional(
+  //     v.array(
+  //       v.object({
+  //         txt: v.string(),
+  //         headline: v.optional(v.string()),
+  //         link: v.optional(v.string()),
+  //         visible: v.boolean(),
+  //         img: v.optional(v.string()),
+  //         id: v.string(),
+  //       })
+  //     )
+  //   ),
+  // }).index("byUserId", ["userId"]),
 });

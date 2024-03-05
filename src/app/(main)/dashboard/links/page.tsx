@@ -1,4 +1,3 @@
-import { DndContext } from "@dnd-kit/core";
 import LinksContainer from "./_components/LinksContainer";
 
 const Links = () => {

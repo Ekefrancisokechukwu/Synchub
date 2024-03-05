@@ -16,7 +16,6 @@ const Account = () => {
 
   useEffect(() => {
     if (accounts !== undefined && accounts !== null && accounts.length > 0) {
-      console.log(accounts);
       setUser(accounts[0]);
     }
   }, [accounts, currentUser, setUser]);

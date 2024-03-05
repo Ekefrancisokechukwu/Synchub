@@ -5,15 +5,15 @@ import { IoImageOutline } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import { TbEyeCheck } from "react-icons/tb";
 import { BsTrash } from "react-icons/bs";
-import { useState } from "react";
-import { useDraggable } from "@dnd-kit/core";
+import { useEffect, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
-import { LinksProps } from "./LinksContainer";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
+import { useMutation } from "convex/react";
+import { api } from "../../../../../../convex/_generated/api";
 
 type Props = {
   link: LinksProps;
-  // link: {id:number,t:string};
 };
 
 const SingleLink = ({ link }: Props) => {
@@ -21,21 +21,59 @@ const SingleLink = ({ link }: Props) => {
   const [editLink, setEditLink] = useState(false);
   const [editLinkName, setEditLinkName] = useState(false);
   const [editHeadline, setEditHeadline] = useState(false);
-  const [title, setTile] = useState("");
+  const [title, setTitle] = useState(link.txt);
+  const [linkValue, setLinkValue] = useState(
+    link.link ? link.link : "https://"
+  );
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({
-    id: link.id,
-    transition: {
-      duration: 500,
-      easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-    },
-  });
+  const { currentUser } = useCurrentUser();
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: link.id,
+      transition: {
+        duration: 500,
+        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+      },
+    });
+  const updatelinks = useMutation(api.synchubAccount.updateLinks);
+
+  const handleEditTitle = (updatedTitle: string) => {
+    if (!currentUser) return;
+
+    const visibleHandle = updatedTitle ? true : false;
+
+    const updatedLink = currentUser.links!.map((l) =>
+      l.id === link.id
+        ? { ...link, txt: updatedTitle, visible: visibleHandle }
+        : l
+    );
+
+    if (title) {
+      updatelinks({
+        id: currentUser?._id,
+        links: updatedLink,
+      });
+    }
+  };
+
+  const handleEditLink = (newLinkValue: string) => {
+    if (!currentUser) return;
+
+    const visibleHandle = newLinkValue && link.txt ? true : false;
+
+    const updatedLink = currentUser.links!.map((l) =>
+      l.id === link.id
+        ? { ...link, link: newLinkValue, visible: visibleHandle }
+        : l
+    );
+
+    if (linkValue) {
+      updatelinks({
+        id: currentUser?._id,
+        links: updatedLink,
+      });
+    }
+  };
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -44,8 +82,6 @@ const SingleLink = ({ link }: Props) => {
 
   return (
     <div ref={setNodeRef} style={style} className="z-50">
-     
-
       {link.headline && (
         <div className="max-h-[13rem] h-full flex items-center gap-x-2">
           <button {...attributes} {...listeners} className="cursor-grab">
@@ -55,7 +91,6 @@ const SingleLink = ({ link }: Props) => {
             <div
               onClick={() => {
                 console.log("cliked");
-
                 setEditHeadline(true);
               }}
               className="flex-grow flex justify-center  items-center gap-x-2 text-center"
@@ -64,15 +99,23 @@ const SingleLink = ({ link }: Props) => {
                 <input
                   autoFocus
                   type="text"
-                  value={title ?? link.txt}
+                  value={title}
                   onBlur={() => {
                     setEditHeadline(false);
                   }}
-                  onChange={(e) => setTile(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setEditHeadline(false);
+                    }
+                  }}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    handleEditTitle(e.target.value);
+                  }}
                   className="text-base text-center outline-none"
                 />
               ) : (
-                <h5 className="text-base text-gray-500 font-medium ">
+                <h5 className="text-base first-letter:capitalize text-gray-500 font-medium ">
                   {link.txt ? link.txt : " Headline Title"}
                 </h5>
               )}
@@ -97,7 +140,7 @@ const SingleLink = ({ link }: Props) => {
 
       {!link.headline && (
         <div className="flex items-center gap-x-2 max-h-[13rem] h-full">
-          <button {...attributes} {...listeners} className="cursor-grab">
+          <button {...attributes} {...listeners} className="cursor-grab ">
             <RiDraggable className="text-2xl text-gray-500" />
           </button>
 
@@ -117,11 +160,23 @@ const SingleLink = ({ link }: Props) => {
                       onBlur={() => {
                         setEditLinkName(false);
                       }}
+                      value={title}
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                        handleEditTitle(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          setEditLinkName(false);
+                        }
+                      }}
                       type="text"
                       className="text-base outline-none"
                     />
                   ) : (
-                    <h5 className="text-base">Github</h5>
+                    <h5 className="text-base capitalize">
+                      {link.txt ? link.txt : "Link Tile"}
+                    </h5>
                   )}
                   {!editLinkName && (
                     <span>
@@ -139,11 +194,23 @@ const SingleLink = ({ link }: Props) => {
                       onBlur={() => {
                         setEditLink(false);
                       }}
+                      onChange={(e) => {
+                        setLinkValue(e.target.value);
+                        handleEditLink(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          setEditLink(false);
+                        }
+                      }}
+                      value={linkValue}
                       type="text"
                       className="outline-none text-sm"
                     />
                   ) : (
-                    <p className=" text-sm">http://youtube/_56765m8 </p>
+                    <p className=" text-sm">
+                      {link.link ? link.link : "Enter Link"}
+                    </p>
                   )}
                   {!editLink && <FiEdit className="text-sm text-gray-400" />}
                 </div>
