@@ -7,7 +7,7 @@ type Props = {
 
 const MobileLinksContainer = ({ links }: Props) => {
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className="flex flex-col gap-y-5 mt-4">
       {links
         .filter((i) => i.visible)
         .map((link) => {

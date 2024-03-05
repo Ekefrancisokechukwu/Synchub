@@ -3,7 +3,7 @@
 import { RiDraggable } from "react-icons/ri";
 import { IoImageOutline } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
-import { TbEyeCheck } from "react-icons/tb";
+import { TbEyeCancel, TbEyeCheck } from "react-icons/tb";
 import { BsTrash } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
@@ -11,6 +11,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { useCurrentUser } from "@/hooks/useCurrentAccount";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../../convex/_generated/api";
+import { motion } from "framer-motion";
 
 type Props = {
   link: LinksProps;
@@ -59,7 +60,7 @@ const SingleLink = ({ link }: Props) => {
   const handleEditLink = (newLinkValue: string) => {
     if (!currentUser) return;
 
-    const visibleHandle = newLinkValue && link.txt ? true : false;
+    const visibleHandle = newLinkValue && link.link ? true : false;
 
     const updatedLink = currentUser.links!.map((l) =>
       l.id === link.id
@@ -74,6 +75,39 @@ const SingleLink = ({ link }: Props) => {
       });
     }
   };
+
+  const handleVisiblity = () => {
+    if (!currentUser) return;
+
+    const updatedLink = currentUser.links!.map((l) =>
+      l.id === link.id ? { ...link, visible: !link.visible } : l
+    );
+
+    if (linkValue) {
+      updatelinks({
+        id: currentUser?._id,
+        links: updatedLink,
+      });
+    }
+  };
+
+  const deleteLink = () => {
+    if (!currentUser) return;
+    const updatedLink = currentUser.links?.filter(
+      (item) => item.id !== link.id
+    );
+
+    if (linkValue) {
+      updatelinks({
+        id: currentUser?._id,
+        links: updatedLink,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setLinkValue(link.link ? link.link : "https://");
+  }, [link.link]);
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -127,10 +161,24 @@ const SingleLink = ({ link }: Props) => {
             </div>
 
             <div className="flex items-center gap-x-3 text-gray-500 text-xl">
-              <button className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 ">
-                <TbEyeCheck />
-              </button>
-              <button className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 ">
+              <motion.button
+                onClick={handleVisiblity}
+                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+              >
+                {link.visible ? (
+                  <motion.span>
+                    <TbEyeCheck />
+                  </motion.span>
+                ) : (
+                  <motion.span>
+                    <TbEyeCancel />
+                  </motion.span>
+                )}
+              </motion.button>
+              <button
+                onClick={deleteLink}
+                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+              >
                 <BsTrash />
               </button>
             </div>
@@ -191,16 +239,19 @@ const SingleLink = ({ link }: Props) => {
                   {editLink ? (
                     <input
                       autoFocus
-                      onBlur={() => {
+                      onBlur={(e) => {
                         setEditLink(false);
+                        handleEditLink(e.target.value);
                       }}
                       onChange={(e) => {
                         setLinkValue(e.target.value);
+                        console.log(e.target.value);
                         handleEditLink(e.target.value);
                       }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           setEditLink(false);
+                          handleEditLink(linkValue);
                         }
                       }}
                       value={linkValue}
@@ -218,10 +269,24 @@ const SingleLink = ({ link }: Props) => {
             </div>
 
             <div className="flex items-center gap-x-3 text-gray-500 text-xl">
-              <button className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 ">
-                <TbEyeCheck />
+              <button
+                onClick={handleVisiblity}
+                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+              >
+                {link.visible && link.link ? (
+                  <span>
+                    <TbEyeCheck />
+                  </span>
+                ) : (
+                  <span>
+                    <TbEyeCancel />
+                  </span>
+                )}
               </button>
-              <button className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 ">
+              <button
+                onClick={deleteLink}
+                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+              >
                 <BsTrash />
               </button>
             </div>

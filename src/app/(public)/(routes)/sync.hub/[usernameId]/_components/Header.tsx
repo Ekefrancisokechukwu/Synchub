@@ -10,8 +10,6 @@ type Props = {
 };
 
 const Header = ({ avater }: Props) => {
-  console.log(avater);
-
   const {
     imageUrl,
     username,
@@ -27,7 +25,7 @@ const Header = ({ avater }: Props) => {
   return (
     <div className="text-center">
       {imageUrl ? (
-        <div className="relative bg-gray-200 sm:size-[6rem] size-[5rem] mx-auto rounded-full">
+        <div className="relative bg-gray-200 sm:size-[5rem] size-[4rem] mx-auto rounded-full">
           <Image
             src={imageUrl!}
             alt={avater.username}
@@ -41,18 +39,18 @@ const Header = ({ avater }: Props) => {
       ) : (
         <div
           style={{ background: avatar.bg }}
-          className="sm:size-[6rem] size-[5rem] mx-auto rounded-full grid place-items-center text-xl text-white "
+          className="sm:size-[5rem] size-[4rem] mx-auto rounded-full grid place-items-center text-xl text-white "
         >
           <span>{username.charAt(0)}</span>
         </div>
       )}
 
-      <h1 className="mt-4 sm:text-4xl text-lg font-medium capitalize">
+      <h1 className="mt-4 sm:text-2xl text-xl font-medium capitalize">
         {displayUsername}
       </h1>
 
       {bio && (
-        <p className="sm:text-lg text-neutral-600 text-base mt-4 font-medium text-center">
+        <p className="sm:text-lg text-neutral-400 text-base mt-4 font-normal text-center">
           {bio}
         </p>
       )}
@@ -60,7 +58,7 @@ const Header = ({ avater }: Props) => {
       {email && (
         <button
           onClick={copyToClipboard}
-          className="px-4 py-2 mt-4 mx-auto border group text-black rounded-lg  sm:text-base text-sm font-medium  flex items-center"
+          className="px-4 py-2 mt-4 mx-auto border group text-black rounded-xl  sm:text-base text-sm font-medium  flex items-center"
         >
           <Copy className="mr-2 w-4 h-4 " />{" "}
           <span className="group-active:scale-90 transition-all duration-300">
@@ -82,9 +80,9 @@ const Header = ({ avater }: Props) => {
                   target="_blank"
                   href={socialIcon.link}
                   key={i}
-                  className="w-14 h-12 flex-shrink-0 bg-neutral-50 border text-neutral-500 transition duration-300 hover:text-neutral-900 text-[1.6rem] rounded-lg grid place-items-center"
+                  className="sm:size-[3rem] size-[2.5rem] flex-shrink-0 bg-neutral-50 border text-neutral-500 transition duration-500 hover:text-neutral-900  rounded-xl grid place-items-center"
                 >
-                  <Icon />
+                  <Icon className="sm:text-[1.2rem] text-lg" />
                 </Link>
               );
             })}
