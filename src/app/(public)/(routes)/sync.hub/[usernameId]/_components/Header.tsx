@@ -58,10 +58,10 @@ const Header = ({ avater }: Props) => {
       {email && (
         <button
           onClick={copyToClipboard}
-          className="px-4 py-2 mt-4 mx-auto border group text-black rounded-xl  sm:text-base text-sm font-medium  flex items-center"
+          className="px-4 py-2 mt-4 mx-auto border group text-neutral-700 rounded-xl  sm:text-base text-sm font-medium  flex items-center"
         >
           <Copy className="mr-2 w-4 h-4 " />{" "}
-          <span className="group-active:scale-90 transition-all duration-300">
+          <span className="group-active:scale-90 transition-all  duration-300">
             {copied ? "Copied" : "  E-mail"}
           </span>
         </button>

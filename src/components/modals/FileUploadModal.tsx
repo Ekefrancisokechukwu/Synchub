@@ -16,7 +16,7 @@ import { api } from "../../../convex/_generated/api";
 import { SingleImageDropzone } from "../SingleDropzone";
 
 export const FileUploadModal = () => {
-  const { isOpen, onClose, isUpload, handleUpload } = useFileUploadModal();
+  const { isOpen, onClose, isUpload, handleUpload, url } = useFileUploadModal();
   const accountQuery = useQuery(api.synchubAccount.accounts);
   const [file, setFile] = useState<File>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,11 +36,17 @@ export const FileUploadModal = () => {
       setIsSubmitting(true);
       setFile(file);
 
-      const res = await edgestore.publicFiles.upload({ file });
+      const res = await edgestore.publicFiles.upload({
+        file,
+        options: {
+          replaceTargetUrl: url,
+        },
+      });
 
       await update({ id: accountQuery[0]._id, imageUrl: res.url });
+
+      handleClose();
     }
-    handleClose();
   };
 
   return (

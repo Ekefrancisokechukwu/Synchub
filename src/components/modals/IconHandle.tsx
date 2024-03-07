@@ -84,11 +84,9 @@ const IconHandle = () => {
     return linkPattern.test(link);
   };
 
-  const newFilteredIcon: IconProps[] =
-    currentUser?.socialIcons !== undefined &&
-    currentUser?.socialIcons.filter((icon) =>
-      icon.name?.toLowerCase().includes(searchValue.toLowerCase())
-    );
+  const newFilteredIcon = currentUser?.socialIcons!.filter((icon) =>
+    icon.name?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -172,8 +170,8 @@ const IconHandle = () => {
                           </motion.li>
                         );
                       })
-                    ) : searchValue && newFilteredIcon.length > 0 ? (
-                      newFilteredIcon.map((icon, i) => {
+                    ) : searchValue && newFilteredIcon!.length > 0 ? (
+                      newFilteredIcon!.map((icon, i) => {
                         const { name, added } = icon;
                         const iconName = icon.icon as "Bs0Circle";
 

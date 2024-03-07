@@ -12,13 +12,15 @@ import { useCurrentUser } from "@/hooks/useCurrentAccount";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../../convex/_generated/api";
 import { motion } from "framer-motion";
+import { useFileUploadModal } from "@/hooks/useFileUploadModal";
+import { useThumbnail } from "@/hooks/use-thumbnail";
+import Image from "next/image";
 
 type Props = {
   link: LinksProps;
 };
 
 const SingleLink = ({ link }: Props) => {
-  // const [edit, setEdit] = useState<{ [key: number]: string }>({});
   const [editLink, setEditLink] = useState(false);
   const [editLinkName, setEditLinkName] = useState(false);
   const [editHeadline, setEditHeadline] = useState(false);
@@ -26,8 +28,11 @@ const SingleLink = ({ link }: Props) => {
   const [linkValue, setLinkValue] = useState(
     link.link ? link.link : "https://"
   );
-
   const { currentUser } = useCurrentUser();
+  const { onOpen, onReplace, setLinkId } = useThumbnail();
+
+  const updatelinks = useMutation(api.synchubAccount.updateLinks);
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: link.id,
@@ -36,7 +41,6 @@ const SingleLink = ({ link }: Props) => {
         easing: "cubic-bezier(0.25, 1, 0.5, 1)",
       },
     });
-  const updatelinks = useMutation(api.synchubAccount.updateLinks);
 
   const handleEditTitle = (updatedTitle: string) => {
     if (!currentUser) return;
@@ -115,9 +119,9 @@ const SingleLink = ({ link }: Props) => {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="z-50">
+    <div ref={setNodeRef} style={style} className="group">
       {link.headline && (
-        <div className="max-h-[13rem] h-full flex items-center gap-x-2">
+        <div className="max-h-[13rem] group-first-of-type:mt-0 mt-8  h-full flex items-center gap-x-2">
           <button {...attributes} {...listeners} className="cursor-grab">
             <RiDraggable className="text-2xl text-gray-500" />
           </button>
@@ -149,7 +153,7 @@ const SingleLink = ({ link }: Props) => {
                   className="text-base text-center outline-none"
                 />
               ) : (
-                <h5 className="text-base first-letter:capitalize text-gray-500 font-medium ">
+                <h5 className="text-base first-letter:capitalize text-gray-700 font-medium ">
                   {link.txt ? link.txt : " Headline Title"}
                 </h5>
               )}
@@ -163,14 +167,23 @@ const SingleLink = ({ link }: Props) => {
             <div className="flex items-center gap-x-3 text-gray-500 text-xl">
               <motion.button
                 onClick={handleVisiblity}
-                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+                transition={{ duration: 0.3, bounce: 2, bounceDamping: 2 }}
+                className="p-2 transition duration-300 text-[1.3rem] rounded-xl hover:bg-neutral-100 "
               >
                 {link.visible ? (
-                  <motion.span>
+                  <motion.span
+                    className="inline-block"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                  >
                     <TbEyeCheck />
                   </motion.span>
                 ) : (
-                  <motion.span>
+                  <motion.span
+                    className="inline-block"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                  >
                     <TbEyeCancel />
                   </motion.span>
                 )}
@@ -194,8 +207,23 @@ const SingleLink = ({ link }: Props) => {
 
           <div className="py-4 px-6  flex-grow bg-white rounded-2xl h-full flex items-center">
             <div className="flex-grow flex gap-x-7 items-center">
-              <span className="w-9 cursor-pointer bg-neutral-100 rounded-full h-9 place-items-center text-xl text-gray-500  grid">
-                <IoImageOutline />
+              <span
+                onClick={() => {
+                  setLinkId(link.id);
+                  onOpen();
+                }}
+                className="w-9 cursor-pointer bg-neutral-100 rounded-full h-9 place-items-center text-xl text-gray-500  grid"
+              >
+                {link.img ? (
+                  <Image
+                    src={link.img}
+                    alt="thumbnail img"
+                    width={60}
+                    height={60}
+                  />
+                ) : (
+                  <IoImageOutline />
+                )}
               </span>
               <div>
                 <div
@@ -222,8 +250,8 @@ const SingleLink = ({ link }: Props) => {
                       className="text-base outline-none"
                     />
                   ) : (
-                    <h5 className="text-base capitalize">
-                      {link.txt ? link.txt : "Link Tile"}
+                    <h5 className="text-base text-gray-700 capitalize">
+                      {link.txt ? link.txt : "Link Titile"}
                     </h5>
                   )}
                   {!editLinkName && (
@@ -259,7 +287,7 @@ const SingleLink = ({ link }: Props) => {
                       className="outline-none text-sm"
                     />
                   ) : (
-                    <p className=" text-sm">
+                    <p className="text-gray-700 text-sm  truncate w-44">
                       {link.link ? link.link : "Enter Link"}
                     </p>
                   )}
@@ -271,7 +299,7 @@ const SingleLink = ({ link }: Props) => {
             <div className="flex items-center gap-x-3 text-gray-500 text-xl">
               <button
                 onClick={handleVisiblity}
-                className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
+                className="p-2 transition duration-300 text-[1.3rem] rounded-xl hover:bg-neutral-100 "
               >
                 {link.visible && link.link ? (
                   <span>

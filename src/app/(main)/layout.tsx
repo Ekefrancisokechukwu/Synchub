@@ -30,7 +30,7 @@ export default function DashboardLayout({
         <div className="px-11 flex-[50%]  pt-5">{children}</div>
 
         {pathname !== "/dashboard/account" && (
-          <div className="grow md:block hidden border-l sticky top-0 px-10 py-5 h-screen">
+          <div className="grow lg:block hidden border-l sticky top-0 px-10 py-5 h-screen">
             <MobilePreview />
           </div>
         )}

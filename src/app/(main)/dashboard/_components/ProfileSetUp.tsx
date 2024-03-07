@@ -10,10 +10,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAddIconModal } from "@/hooks/useAddIconModal";
+import { useEdgeStore } from "@/lib/edgestore";
 
 const ProfileSetUp = () => {
   const [wordCount, setWordCount] = useState<number>(0);
-  const { onOpen } = useFileUploadModal();
+  const { onOpen, onReplace } = useFileUploadModal();
+  const { edgestore } = useEdgeStore();
   const { onOpen: handleOpenAddicon } = useAddIconModal();
   const accountQuery = useQuery(api.synchubAccount.accounts);
   const [currentAccount, setCurrentAccount] = useState<Doc<"synchubAccount">>();
@@ -23,6 +25,7 @@ const ProfileSetUp = () => {
     email: "",
   });
   const update = useMutation(api.synchubAccount.updateAccount);
+  const removeProfile = useMutation(api.synchubAccount.removeProfileImg);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -63,6 +66,20 @@ const ProfileSetUp = () => {
     }
   }, [accountQuery, inputValues.bio, inputValues.displayUsername]);
 
+  if (!accountQuery || accountQuery === undefined || accountQuery === null)
+    return;
+  const url = accountQuery[0].imageUrl;
+
+  const onRemove = () => {
+    if (url) {
+      edgestore.publicFiles.delete({
+        url: url,
+      });
+    }
+
+    removeProfile({ id: accountQuery[0]._id });
+  };
+
   return (
     <div>
       <h1 className="text-[1.1rem] text-neutral-900 font-semibold">
@@ -73,7 +90,7 @@ const ProfileSetUp = () => {
         <div className="flex items-center gap-x-3">
           {currentAccount?.imageUrl ? (
             <Avatar
-              onClick={onOpen}
+              onClick={() => onReplace(url!)}
               className="w-[5rem] cursor-pointer h-[5rem]"
             >
               <AvatarImage
@@ -102,7 +119,10 @@ const ProfileSetUp = () => {
             >
               Pick an image
             </button>
-            <button className="text-base w-full py-3 transition duration-300 hover: text-neutral-500 border font-semibold rounded-3xl">
+            <button
+              onClick={onRemove}
+              className="text-base w-full py-3 transition duration-300 hover: text-neutral-500 border font-semibold rounded-3xl"
+            >
               Remove
             </button>
           </div>

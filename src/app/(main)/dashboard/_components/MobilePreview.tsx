@@ -42,7 +42,7 @@ const MobilePreview = () => {
         <PublishedLink />
       </div>
 
-      <ScrollArea className="h-[80vh] rounded-3xl px-4  bg-neutral-50  xl:w-[320px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
+      <ScrollArea className="h-[80vh] rounded-3xl px-4 pb-7  bg-neutral-50  xl:w-[320px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
         {currentAccount.length > 0 && (
           <>
             <div className="pt-7">

@@ -11,7 +11,7 @@ const LinkItem = ({ link }: Props) => {
   return (
     <>
       {link.headline && (
-        <h1 className="text-center first-letter:uppercase text-lg text-neutral-600 font-semibold">
+        <h1 className="text-center first-of-type:mt-0 mt-8 first-letter:uppercase text-lg text-neutral-600 font-semibold">
           {link.txt}
         </h1>
       )}
@@ -19,16 +19,19 @@ const LinkItem = ({ link }: Props) => {
       {!link.headline && link.link! && (
         <Link
           href={link.link}
+          target="_blank"
           className="w-full shadow flex hover:bg-gray-100 duration-500 transition-all items-center justify-between bg-neutral-50 rounded-2xl px-5 py-3"
         >
-          <div className="relative sm:size-[3rem] size-[2rem] rounded-2xl">
-            <Image
-              src={img}
-              alt=""
-              sizes="(max-width: 768px) 100vw, 33vw)"
-              fill
-              className="w-full h-full object-cover rounded-2xl"
-            />
+          <div className="relative sm:size-[2.5rem] size-[2rem] rounded-2xl">
+            {link.img ? (
+              <Image
+                src={link.img}
+                alt={link.img}
+                sizes="(max-width: 768px) 100vw, 33vw)"
+                fill
+                className="w-full h-full object-cover rounded-2xl"
+              />
+            ) : null}
           </div>
 
           <span className="capitalize text-[1.1rem] font-medium text-neutral-500">

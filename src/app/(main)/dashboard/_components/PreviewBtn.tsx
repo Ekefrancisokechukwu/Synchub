@@ -9,6 +9,8 @@ type Props = {
 };
 
 const PreviewBtn = ({ link }: Props) => {
+  console.log(link.img);
+
   return (
     <>
       {link.headline && (
@@ -20,10 +22,12 @@ const PreviewBtn = ({ link }: Props) => {
       {!link.headline && link.link! && (
         <Link
           href={link.link!}
-          className="w-full border rounded-md flex items-center justify-between py-3 px-4"
+          className="w-full border rounded-2xl flex items-center justify-between py-3 px-4"
         >
           <div className="w-5 h-6 rounded-full">
-            <Image src={tan2} alt="" width={500} height={500} className="" />
+            {link.img ? (
+              <Image priority src={link.img} alt="" width={30} height={30} />
+            ) : null}
           </div>
           <span className="capitalize">{link.txt}</span>
           <RxExternalLink />

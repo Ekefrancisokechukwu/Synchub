@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Tooltip,
@@ -6,6 +8,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { linkProps } from "./Navigation";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type props = {
   linkProps: linkProps;
@@ -14,6 +18,7 @@ type props = {
 
 const NavigationLink = ({ linkProps, collapsed }: props) => {
   const Icon = linkProps.icon;
+  const pathname = usePathname();
 
   return (
     <TooltipProvider delayDuration={3} disableHoverableContent>
@@ -32,7 +37,10 @@ const NavigationLink = ({ linkProps, collapsed }: props) => {
           <TooltipTrigger asChild className="w-full">
             <Link
               href={linkProps.path}
-              className="text-base hover:bg-gray-100 rounded-md  transition-colors duration-300  font-medium flex items-center gap-x-2 py-1.5 px-2 text-neutral-500"
+              className={cn(
+                "text-base hover:bg-gray-100 rounded-md  transition-colors duration-300  font-medium flex items-center gap-x-2 py-1.5 px-2 text-neutral-500",
+                pathname === linkProps.path && "bg-gray-100"
+              )}
             >
               <span className={`grid  ${collapsed && "ml-1"} `}>
                 <Icon
