@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import { useFileUploadModal } from "@/hooks/useFileUploadModal";
 import { useThumbnail } from "@/hooks/use-thumbnail";
 import Image from "next/image";
+import { useDelete } from "@/hooks/use-delete";
+import DeleteModal from "@/components/modals/DeleteModal";
 
 type Props = {
   link: LinksProps;
@@ -28,8 +30,10 @@ const SingleLink = ({ link }: Props) => {
   const [linkValue, setLinkValue] = useState(
     link.link ? link.link : "https://"
   );
+
   const { currentUser } = useCurrentUser();
   const { onOpen, onReplace, setLinkId } = useThumbnail();
+  const { onOpen: handleOpenDeleteModal } = useDelete();
 
   const updatelinks = useMutation(api.synchubAccount.updateLinks);
 
@@ -95,11 +99,14 @@ const SingleLink = ({ link }: Props) => {
     }
   };
 
-  const deleteLink = () => {
+  const deleteLink = (id:string) => {
     if (!currentUser) return;
     const updatedLink = currentUser.links?.filter(
-      (item) => item.id !== link.id
+      (item) => item.id !== id
     );
+
+    console.log(id);
+    console.log(id);
 
     if (linkValue) {
       updatelinks({
@@ -189,7 +196,7 @@ const SingleLink = ({ link }: Props) => {
                 )}
               </motion.button>
               <button
-                onClick={deleteLink}
+                onClick={() => handleOpenDeleteModal(link.id)}
                 className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
               >
                 <BsTrash />
@@ -198,7 +205,6 @@ const SingleLink = ({ link }: Props) => {
           </div>
         </div>
       )}
-
       {!link.headline && (
         <div className="flex items-center gap-x-2 max-h-[13rem] h-full">
           <button {...attributes} {...listeners} className="cursor-grab ">
@@ -312,7 +318,7 @@ const SingleLink = ({ link }: Props) => {
                 )}
               </button>
               <button
-                onClick={deleteLink}
+                onClick={() => handleOpenDeleteModal(link.id)}
                 className="p-2 transition duration-300 rounded-xl hover:bg-neutral-100 "
               >
                 <BsTrash />
@@ -321,6 +327,7 @@ const SingleLink = ({ link }: Props) => {
           </div>
         </div>
       )}
+      <DeleteModal handleDelete={deleteLink} />
     </div>
   );
 };

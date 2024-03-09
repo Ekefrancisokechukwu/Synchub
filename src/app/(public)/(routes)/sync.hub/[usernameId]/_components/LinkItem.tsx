@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import img from "../../../../../../../public/img/i.webp";
 import { RxExternalLink } from "react-icons/rx";
 
 type Props = {
@@ -22,7 +21,7 @@ const LinkItem = ({ link }: Props) => {
           target="_blank"
           className="w-full shadow flex hover:bg-gray-100 duration-500 transition-all items-center justify-between bg-neutral-50 rounded-2xl px-5 py-3"
         >
-          <div className="relative sm:size-[2.5rem] size-[2rem] rounded-2xl">
+          <div className="relative sm:size-[2.5rem] size-[2rem] rounded-xl">
             {link.img ? (
               <Image
                 src={link.img}

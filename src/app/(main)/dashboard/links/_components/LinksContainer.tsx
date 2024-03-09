@@ -109,7 +109,7 @@ const LinksContainer = () => {
       <div className="flex flex-col mt-11 gap-y-4">
         <SortableContext items={links} strategy={verticalListSortingStrategy}>
           {currentUser.links !== undefined &&
-            links?.map((link, i) => <SingleLink key={link.id} link={link} />)}
+            links?.map((link) => <SingleLink key={link.id} link={link} />)}
         </SortableContext>
       </div>
     </DndContext>
