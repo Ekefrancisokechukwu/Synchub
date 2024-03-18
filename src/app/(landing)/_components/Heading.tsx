@@ -10,7 +10,7 @@ const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
   if (isAuthenticated) {
-    return redirect("/dashboard/login");
+    return redirect("/dashboard");
   }
 
   return (
@@ -38,6 +38,7 @@ const Heading = () => {
           </SignInButton>
         )}
       </div>
+
       <div className="text-center mt-14">
         <p className="text-lg mb-2">
           Join our waitlist to receive exclusive updates and early access.

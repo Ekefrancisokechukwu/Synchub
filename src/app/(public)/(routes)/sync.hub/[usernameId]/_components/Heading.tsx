@@ -6,9 +6,10 @@ import { useCopy } from "@/hooks/use-copy";
 import { Copy } from "lucide-react";
 import Link from "next/link";
 import { IconsReact } from "@/lib/data";
-import { useInView } from "framer-motion";
+import { useInView, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useInviewHeader } from "@/hooks/use-inViewHeader";
+import { useTheme } from "@/context/ThemeContext";
 
 type Props = {
   avater: Doc<"synchubAccount">;
@@ -28,6 +29,7 @@ const Heading = ({ avater }: Props) => {
   const { setInviewFalse, setInviewTrue } = useInviewHeader();
   const ref = useRef(null);
   const isInView = useInView(ref);
+  const theme = avater.style;
 
   useEffect(() => {
     if (isInView) {
@@ -40,7 +42,7 @@ const Heading = ({ avater }: Props) => {
   return (
     <div className="text-center">
       {imageUrl ? (
-        <div className="relative bg-gray-200 sm:size-[5.3rem] size-[4rem] mx-auto rounded-full">
+        <div className="relative bg-gray-200 size-[5.3rem]  mx-auto rounded-full">
           <Image
             src={imageUrl!}
             alt={avater.username}
@@ -60,30 +62,75 @@ const Heading = ({ avater }: Props) => {
         </div>
       )}
 
-      <h1 ref={ref} className="mt-4 sm:text-2xl text-xl font-medium capitalize">
+      <motion.h1
+        initial={{ y: 9, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.3,
+          ease: "easeIn",
+          stiffness: 80,
+          type: "spring",
+        }}
+        ref={ref}
+        style={{ color: theme?.textHeading }}
+        className="mt-4 sm:text-2xl  font-medium capitalize"
+      >
         {displayUsername}
-      </h1>
+      </motion.h1>
 
       {bio && (
-        <p className="sm:text-lg text-neutral-400 text-base mt-4 font-normal text-center">
+        <motion.p
+          initial={{ y: 9, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: 0.3,
+            type: "spring",
+            duration: 0.3,
+            ease: "easeIn",
+            stiffness: 80,
+          }}
+          style={{ color: theme?.textColor }}
+          className="sm:text-lg   text-base mt-4 font-normal text-center"
+        >
           {bio}
-        </p>
+        </motion.p>
       )}
 
       {email && (
-        <button
+        <motion.button
+          initial={{ y: 9, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: 0.4,
+            type: "spring",
+            duration: 0.3,
+            ease: "easeIn",
+            stiffness: 80,
+          }}
           onClick={copyToClipboard}
-          className="px-4 py-2 mt-4 mx-auto border group text-neutral-700 rounded-xl  sm:text-base text-sm font-medium  flex items-center"
+          style={{ color: theme?.textHeading }}
+          className="px-4 py-2 mt-4 mx-auto border group  rounded-lg  sm:text-base text-sm font-medium  flex items-center"
         >
           <Copy className="mr-2 w-4 h-4 " />{" "}
           <span className="group-active:scale-90 transition-all  duration-300">
             {copied ? "Copied" : "  E-mail"}
           </span>
-        </button>
+        </motion.button>
       )}
 
       {socialIcons?.length! > 0 && (
-        <div className="mt-4 flex  justify-center items-center gap-x-2">
+        <motion.div
+          initial={{ y: 9, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: 0.5,
+            type: "spring",
+            duration: 0.3,
+            ease: "easeIn",
+            stiffness: 80,
+          }}
+          className="mt-4 flex  justify-center items-center gap-x-2"
+        >
           {socialIcons
             ?.filter((icon) => icon.added === true && !icon.hidden)
             .map((socialIcon, i) => {
@@ -95,13 +142,16 @@ const Heading = ({ avater }: Props) => {
                   target="_blank"
                   href={socialIcon.link}
                   key={i}
-                  className="sm:size-[3rem] size-[2.5rem] flex-shrink-0 bg-neutral-50 border text-neutral-500 transition duration-500 hover:text-neutral-900  rounded-xl grid place-items-center"
+                  className="sm:size-[3rem] size-[2.5rem] flex-shrink-0  border text-neutral-500 transition duration-500 hover:text-neutral-900  rounded-xl grid place-items-center"
                 >
-                  <Icon className="sm:text-[1.2rem] text-lg" />
+                  <Icon
+                    style={{ color: theme?.textColor }}
+                    className="sm:text-[1.2rem] text-lg"
+                  />
                 </Link>
               );
             })}
-        </div>
+        </motion.div>
       )}
     </div>
   );

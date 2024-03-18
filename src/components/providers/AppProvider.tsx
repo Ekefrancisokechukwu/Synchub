@@ -6,14 +6,14 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <ConvexClientProvider>
-        <EdgeStoreProvider>
-          <ModalProvider />
-          {children}
-        </EdgeStoreProvider>
-      </ConvexClientProvider>
-    </ThemeProvider>
+    // <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ConvexClientProvider>
+      <EdgeStoreProvider>
+        <ModalProvider />
+        {children}
+      </EdgeStoreProvider>
+    </ConvexClientProvider>
+    // </ThemeProvider>
   );
 };
 export default AppProvider;

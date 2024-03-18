@@ -10,7 +10,6 @@ export default function Home() {
     <main className="">
       <Header />
       <Heading />
-      {/* {!isLoading && !isAuthenticated && <SignInButton mode="modal" />} */}
     </main>
   );
 }

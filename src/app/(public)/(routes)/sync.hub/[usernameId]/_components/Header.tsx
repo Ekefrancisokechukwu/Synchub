@@ -29,14 +29,13 @@ const Header = ({ avater }: Props) => {
         stiffness: 60,
       }}
       style={{ translateX: "-50%" }}
-      className="fixed flex  justify-between items-center bg-neutral-50 z-50 left-1/2 top-8 rounded-xl  shadow-md px-3 py-2  sm:w-[40rem] w-[90%]"
+      className="fixed flex  justify-between items-center backdrop-blur-md bg-neutral-50/70 z-50 left-1/2 top-4 rounded-xl  shadow-md px-3 py-2  sm:w-[40rem] w-[90%]"
     >
       <div className="w-[2.5rem] h-[3rem] relative rounded-lg bg-neutral-100">
         <Image
           src={avater.imageUrl!}
           alt={avater.username}
           fill
-          // sizes="(max-width: 30px) 10vw, 33vw)"
           className="object-cover  rounded-lg"
         />
       </div>

@@ -42,7 +42,13 @@ const MobilePreview = () => {
         <PublishedLink />
       </div>
 
-      <ScrollArea className="h-[80vh] rounded-3xl px-4 pb-7  bg-neutral-50  xl:w-[320px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] ">
+      <ScrollArea
+        style={{
+          backgroundColor: currentUser?.style?.backgroundColor,
+          backgroundImage: currentUser?.style?.backgroundImage,
+        }}
+        className="h-[80vh] rounded-3xl px-4   bg-neutral-50  xl:w-[335px] w-[240px]  mx-auto  shadow-[0px_0px_0px_8px_#2c2c2b,_0px_0px_0px_8px_#1a1919,_0px_0px_0px_15px_#0e0e0d] "
+      >
         {currentAccount.length > 0 && (
           <>
             <div className="pt-7">
@@ -65,11 +71,18 @@ const MobilePreview = () => {
               )}
             </div>
 
-            <h1 className="text-center text-xl capitalize  mt-3 font-semibold">
+            <h1
+              style={{ color: currentAccount[0].style?.textHeading }}
+              className="text-center text-xl capitalize  mt-3 font-semibold"
+            >
               {currentAccount[0].displayUsername}
             </h1>
+
             {currentAccount[0].bio && (
-              <p className="mt-3 text-center text-sm text-neutral-600 ">
+              <p
+                style={{ color: currentAccount[0].style?.textColor }}
+                className="mt-3 text-center text-sm text-neutral-600 "
+              >
                 {currentAccount[0].bio}
               </p>
             )}
@@ -77,8 +90,9 @@ const MobilePreview = () => {
             {currentAccount[0].email && (
               <div className="flex justify-center mt-4">
                 <button
+                  style={{ color: currentUser?.style?.textColor }}
                   onClick={copyToClipboard}
-                  className="px-3 py-2 border group text-neutral-500 rounded-lg  text-sm  flex items-center"
+                  className="px-3 py-2 border group  rounded-lg  text-sm  flex items-center"
                 >
                   <Copy className="mr-2 w-4 h-3 " />{" "}
                   <span className="group-active:scale-90 transition-all duration-300">
@@ -102,8 +116,9 @@ const MobilePreview = () => {
                     return (
                       <Link
                         key={i}
+                        style={{ color: currentUser?.style?.textColor }}
                         href={icon.link}
-                        className="p-2 border  rounded-xl hover:text-gray-800 transition duration-200 text-gray-500"
+                        className="p-2 border  rounded-xl hover:text-gray-800 transition duration-200 "
                       >
                         <span className="text-xl w-4 h-4 ">
                           <Icon className="text-sm" />

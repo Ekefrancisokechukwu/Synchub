@@ -37,20 +37,25 @@ export default defineSchema({
       initail: v.string(),
       bg: v.string(),
     }),
+    style: v.optional(
+      v.object({
+        backgroundImage: v.optional(v.string()),
+        backgroundGradient: v.optional(v.string()),
+        backgroundColor: v.optional(v.string()),
+        textColor: v.string(),
+        textHeading: v.string(),
+        variant: v.optional(
+          v.union(
+            v.literal("dark"),
+            v.literal("rounded"),
+            v.literal("_3dWhite"),
+            v.literal("simple"),
+            v.literal("gradients"),
+            v.literal("default")
+          )
+        ),
+      })
+    ),
   }).index("byUserId", ["userId"]),
-  // synchubAccountLinks: defineTable({
-  //   userId: v.string(),
-  //   links: v.optional(
-  //     v.array(
-  //       v.object({
-  //         txt: v.string(),
-  //         headline: v.optional(v.string()),
-  //         link: v.optional(v.string()),
-  //         visible: v.boolean(),
-  //         img: v.optional(v.string()),
-  //         id: v.string(),
-  //       })
-  //     )
-  //   ),
-  // }).index("byUserId", ["userId"]),
 });
+// "dark" | "rounded" | "_3dWhite" | "simple" | "default" | null | undefined;

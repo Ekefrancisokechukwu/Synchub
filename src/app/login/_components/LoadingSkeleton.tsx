@@ -13,6 +13,7 @@ export function FormLoading() {
         <Skeleton className="w-[3rem] h-[2rem]" />
         <Skeleton className="w-[3rem] h-[2rem]" />
       </div>
+
       <div className="mt-8 space-y-4">
         <Skeleton className="w-[20rem] h-[2.5rem]" />
         <Skeleton className="w-[20rem] h-[2.5rem]" />

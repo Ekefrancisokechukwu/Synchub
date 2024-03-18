@@ -3,26 +3,34 @@ import Link from "next/link";
 import { FaYoutube } from "react-icons/fa6";
 import { RxExternalLink } from "react-icons/rx";
 import tan2 from "../../../../../public/img/formavater.webp";
+import { LinkTheme } from "@/app/(public)/(routes)/sync.hub/[usernameId]/_components/ui/link";
+import { useCurrentUser } from "@/hooks/useCurrentAccount";
 
 type Props = {
   link: LinksProps;
 };
 
 const PreviewBtn = ({ link }: Props) => {
-  console.log(link.img);
+  const { currentUser } = useCurrentUser();
+
+  const style = currentUser?.style;
 
   return (
     <>
       {link.headline && (
-        <h1 className="text-center first-letter:uppercase font-semibold">
+        <h1
+          style={{ color: style?.textHeading }}
+          className="text-center first-letter:uppercase font-semibold"
+        >
           {link.txt}
         </h1>
       )}
 
       {!link.headline && link.link! && (
-        <Link
+        <LinkTheme
           href={link.link!}
-          className="w-full border rounded-2xl flex items-center justify-between py-3 px-4"
+          variant={currentUser?.style?.variant}
+          className="py-3 px-4 w-[95%]"
         >
           <div className="w-5 h-6 rounded-full">
             {link.img ? (
@@ -31,7 +39,7 @@ const PreviewBtn = ({ link }: Props) => {
           </div>
           <span className="capitalize">{link.txt}</span>
           <RxExternalLink />
-        </Link>
+        </LinkTheme>
       )}
     </>
   );

@@ -9,6 +9,7 @@ import ProfileControl from "../_components/profile-control";
 import AccountSetupForm from "../account/_components/AccountSetupForm";
 import SocialIcons from "../_components/SocialIcons";
 import { useCurrentUser } from "@/hooks/useCurrentAccount";
+import Themes from "../_components/Themes";
 
 const Page = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -45,6 +46,8 @@ const Page = () => {
         currentUser.socialIcons.filter((icon) => icon.added).length > 0 && (
           <SocialIcons />
         )}
+
+      <Themes />
     </div>
   );
 };

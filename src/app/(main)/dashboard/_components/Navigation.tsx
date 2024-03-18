@@ -53,7 +53,7 @@ const Navigation = () => {
   useEffect(() => {
     const isCollapsed = localStorage.getItem("isCollapsed");
     if (isCollapsed) {
-      setCollapsed(isCollapsed === "true");
+      setCollapsed(isCollapsed === "true" ? true : false);
     }
   }, []);
 

@@ -1,26 +1,27 @@
 import Image from "next/image";
-import Link from "next/link";
 import { RxExternalLink } from "react-icons/rx";
+import { LinkTheme } from "./ui/link";
+import { ThemeProps } from "@/context/ThemeContext";
 
 type Props = {
   link: LinksProps;
+  style: ThemeProps;
 };
 
-const LinkItem = ({ link }: Props) => {
+const LinkItem = ({ link, style }: Props) => {
   return (
     <>
       {link.headline && (
-        <h1 className="text-center first-of-type:mt-0 mt-8 first-letter:uppercase text-lg text-neutral-600 font-semibold">
+        <h1
+          style={{ color: style?.textHeading }}
+          className="text-center first-of-type:mt-0 mt-8 first-letter:uppercase text-lg  font-semibold"
+        >
           {link.txt}
         </h1>
       )}
 
       {!link.headline && link.link! && (
-        <Link
-          href={link.link}
-          target="_blank"
-          className="w-full shadow flex hover:bg-gray-100 duration-500 transition-all items-center justify-between bg-neutral-50 rounded-2xl px-5 py-3"
-        >
+        <LinkTheme href={link.link} variant={style.variant} className="">
           <div className="relative sm:size-[2.5rem] size-[2rem] rounded-xl">
             {link.img ? (
               <Image
@@ -33,11 +34,12 @@ const LinkItem = ({ link }: Props) => {
             ) : null}
           </div>
 
-          <span className="capitalize text-[1.1rem] font-medium text-neutral-500">
+          <span className="capitalize text-[1.1rem] font-medium ">
             {link.txt}
           </span>
-          <RxExternalLink className="text-[1.3rem] text-gray-500" />
-        </Link>
+
+          <RxExternalLink className="text-[1.3rem] " />
+        </LinkTheme>
       )}
     </>
   );

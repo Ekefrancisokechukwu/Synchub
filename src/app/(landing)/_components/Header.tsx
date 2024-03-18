@@ -2,7 +2,6 @@ import SynchubSVG from "@/components/ui/logo";
 import Navbar from "./Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ThemeToggle from "./theme-toggle";
 import LoginBtn from "./LoginBtn";
 
 const Header = () => {
@@ -12,7 +11,6 @@ const Header = () => {
       <Navbar />
       <div className="flex items-center gap-x-8">
         {" "}
-        <ThemeToggle />
         <Link href={"#"} className="p-2 ">
           Register
         </Link>
