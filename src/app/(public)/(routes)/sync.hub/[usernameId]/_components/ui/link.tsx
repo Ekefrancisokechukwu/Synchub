@@ -13,7 +13,7 @@ const linkVariants = cva(
           "shadow hover:bg-gray-100 rounded-2xl duration-500 transition-all bg-neutral-50 text-neutral-500 ",
         dark: "hover:bg-[#393939] rounded-lg duration-500 transition-all bg-[#222222] text-[#c6c3c3] ",
         rounded:
-          "hover:scale-[1.08] ease-bounce bg-neutral-50/50 rounded-full shadow transition-all  text-[#000] duration-500 ",
+          "hover:scale-[1.08] ease-bounce bg-neutral-50 rounded-full shadow transition-all  text-[#000] duration-500 ",
         gradients:
           "hover:scale-[1.08] ease-bounce bg-neutral-50/50 rounded-full shadow  text-[#fff] transition-all  duration-500 ",
         simple: "",

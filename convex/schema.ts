@@ -56,6 +56,8 @@ export default defineSchema({
         ),
       })
     ),
+    stacks: v.optional(
+      v.array(v.object({ url: v.string(), visible: v.boolean() }))
+    ),
   }).index("byUserId", ["userId"]),
 });
-// "dark" | "rounded" | "_3dWhite" | "simple" | "default" | null | undefined;

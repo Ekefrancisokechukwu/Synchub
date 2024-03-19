@@ -20,8 +20,8 @@ const Theme = ({ theme, currrentTheme, setCurrentTheme }: ThemeProps) => {
         setCurrentTheme(theme.themeName);
       }}
       className={cn(
-        "rounded-md  grid grid-cols-1 group gap-y-4 ",
-        currrentTheme === theme.themeName ? "border" : "border-none"
+        "rounded-md  grid grid-cols-1 border group gap-y-4 ",
+        currrentTheme === theme.themeName ? "outline" : "outline-none"
       )}
     >
       <Image
@@ -30,7 +30,7 @@ const Theme = ({ theme, currrentTheme, setCurrentTheme }: ThemeProps) => {
         width={200}
         height={200}
         className={cn(
-          "rounded-md  transition-all",
+          "rounded-md h-[200px] transition-all",
           currrentTheme === theme.themeName ? "scale-95" : "scale-100"
         )}
       />

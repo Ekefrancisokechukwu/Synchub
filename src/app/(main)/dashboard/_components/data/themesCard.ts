@@ -2,8 +2,8 @@ import { ThemesType } from "./types";
 
 export const themesCards: ThemesType[] = [
   {
-    themeName: "default",
-    variant: "default",
+    themeName: "lake",
+    variant: "rounded",
     imgUrl: "/img/theme1.png",
   },
   {
@@ -14,11 +14,6 @@ export const themesCards: ThemesType[] = [
   {
     themeName: "dark",
     variant: "dark",
-    imgUrl: "/img/theme3.png",
-  },
-  {
-    themeName: "_3dWhite",
-    variant: "_3dWhite",
     imgUrl: "/img/theme3.png",
   },
 ];

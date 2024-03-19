@@ -44,7 +44,16 @@ export const themes: ThemeOptions = {
     textHeading: "#1d1d1dd8",
     variant: "_3dWhite",
   },
+  lake: {
+    backgroundColor: "#ffff",
+    backgroundImage: "url(${theme.backgroundImage})",
+    textColor: "#000",
+    textHeading: "#000",
+    variant: "rounded",
+  },
   dark: {
+    backgroundImage: "url(${theme.backgroundImage})",
+
     backgroundColor: "#000",
     textColor: "#cfcecedb",
     textHeading: "#fff",

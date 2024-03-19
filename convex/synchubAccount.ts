@@ -111,6 +111,9 @@ export const updateAccount = mutation({
         })
       )
     ),
+    stacks: v.optional(
+      v.array(v.object({ url: v.string(), visible: v.boolean() }))
+    ),
   },
 
   handler: async (ctx, args) => {

@@ -41,6 +41,7 @@ const LinksContainer = () => {
       link: "",
       img: "",
     };
+
     const linksArray = currentUser.links || [];
 
     updatelinks({

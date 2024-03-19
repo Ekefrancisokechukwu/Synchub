@@ -178,9 +178,6 @@ const ProfileSetUp = () => {
             Add Icon
           </Button>
         </div>
-        <button className="w-full flex-1 text-base mt-3 font-medium rounded-lg text-white py-3 bg-blue-500 hover:bg-blue-600 duration-500 transition-all">
-          Add Stack / Tool
-        </button>
       </div>
     </div>
   );
