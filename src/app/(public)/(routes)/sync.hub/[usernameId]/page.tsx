@@ -13,6 +13,8 @@ import Stacks from "./_components/Stacks";
 import { loadSlim } from "@tsparticles/slim";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { Container, Engine } from "@tsparticles/engine";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface DocumentIdPageProps {
   params: {
@@ -178,6 +180,23 @@ const Overview = ({ params }: DocumentIdPageProps) => {
         {currentUser.stacks?.length! > 0 && (
           <Stacks stacks={currentUser.stacks!} style={theme as ThemeProps} />
         )}
+      </div>
+
+      <div className="py-[2rem] text-center flex justify-center items-center gap-x-4">
+        <Link
+          target="_blank"
+          href={"https://twitter.com/Francis64995273"}
+          className="text-neutral-400 hover:underline font-medium text-sm"
+        >
+          &copy; Francis
+        </Link>
+        <Button
+          asChild
+          variant={"ghost"}
+          className="rounded-full bg-gray-100 text-gray-500"
+        >
+          <Link href={"/"}>Create yours</Link>
+        </Button>
       </div>
     </div>
   );
