@@ -26,7 +26,7 @@ const Stacks = ({ style, stacks }: Props) => {
 
       <div
         className={cn(
-          "mt-2   items-center whitespace-nowrap",
+          "mt-2 overflow-hidden  items-center whitespace-nowrap",
           stacks.length > 6 && "scroller"
         )}
       >
