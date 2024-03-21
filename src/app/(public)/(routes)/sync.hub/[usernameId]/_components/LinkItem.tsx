@@ -39,7 +39,6 @@ const LinkItem = ({ link, style }: Props) => {
       {!link.headline && link.link! && (
         <motion.div
           variants={option}
-          animate={link.important && "important"}
           whileHover={option[style.variant!]}
           transition={{
             type: "spring",

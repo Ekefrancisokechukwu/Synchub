@@ -32,8 +32,8 @@ export default function DashboardLayout({
       <ProfileControl />
       <Navigation />
 
-      <main className="grow h-screen flex   overflow-y-scroll">
-        <div className="sm:px-11 px-6 flex-[50%]  pt-5 sm:mt-0 mt-[8rem]">
+      <main className="grow h-screen flex   overflow-y-scroll overflow-x-hidden">
+        <div className="sm:px-11 px-6 flex-[50%]  pt-5 sm:mt-0 mt-[8rem] max-[500px]:mt-[10rem]">
           {children}
         </div>
 

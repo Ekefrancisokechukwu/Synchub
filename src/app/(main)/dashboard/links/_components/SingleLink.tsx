@@ -18,6 +18,8 @@ import Image from "next/image";
 import { useDelete } from "@/hooks/use-delete";
 import DeleteModal from "@/components/modals/DeleteModal";
 import { Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { IoIosStarOutline, IoIosStar } from "react-icons/io";
 
 type Props = {
   link: LinksProps;
@@ -103,6 +105,21 @@ const SingleLink = ({ link }: Props) => {
   const deleteLink = (id: string) => {
     if (!currentUser) return;
     const updatedLink = currentUser.links?.filter((item) => item.id !== id);
+
+    if (linkValue) {
+      updatelinks({
+        id: currentUser?._id,
+        links: updatedLink,
+      });
+    }
+  };
+
+  const toggleImportant = () => {
+    if (!currentUser) return;
+
+    const updatedLink = currentUser.links!.map((l) =>
+      l.id === link.id ? { ...link, important: !link.important } : l
+    );
 
     if (linkValue) {
       updatelinks({
@@ -321,19 +338,23 @@ const SingleLink = ({ link }: Props) => {
                   {!editLink && <FiEdit className="text-sm text-gray-400" />}
                 </div>
 
-                <div className="mt-2 flex items-center gap-x-3">
+                <div className="mt-2  items-center gap-x-3 max-[400px]:flex hidden ">
                   <span
                     onClick={() => {
                       setLinkId(link.id);
                       onOpen();
                     }}
-                    className="max-[400px]:block hidden"
                   >
                     <IoImageOutline className="text-gray-500" />
                   </span>
-                  <span className=" cursor-pointer p-1 hover:scale-105 transition-all duration-200">
-                    <Star className="text-gray-500 w-4 h-4" />
-                  </span>
+                  {link.img && (
+                    <Image
+                      src={link.img}
+                      alt="thumbnail img"
+                      width={20}
+                      height={20}
+                    />
+                  )}
                 </div>
               </div>
             </div>
