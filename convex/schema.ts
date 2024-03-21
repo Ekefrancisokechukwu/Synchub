@@ -10,6 +10,7 @@ export default defineSchema({
     bio: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     email: v.optional(v.string()),
+
     socialIcons: v.optional(
       v.array(
         v.object({
@@ -30,6 +31,7 @@ export default defineSchema({
           visible: v.boolean(),
           img: v.optional(v.string()),
           id: v.string(),
+          important: v.optional(v.boolean()),
         })
       )
     ),
@@ -44,12 +46,14 @@ export default defineSchema({
         backgroundColor: v.optional(v.string()),
         textColor: v.string(),
         textHeading: v.string(),
+        particle: v.optional(v.union(v.literal("circle"), v.literal("star"))),
         variant: v.optional(
           v.union(
             v.literal("dark"),
             v.literal("rounded"),
             v.literal("_3dWhite"),
             v.literal("simple"),
+            v.literal("particleGray"),
             v.literal("gradients"),
             v.literal("default")
           )

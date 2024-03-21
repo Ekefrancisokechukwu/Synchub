@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -17,6 +16,8 @@ const linkVariants = cva(
         gradients:
           "hover:scale-[1.08] ease-bounce bg-neutral-50/50 rounded-full shadow  text-[#fff] transition-all  duration-500 ",
         simple: "",
+        particleGray:
+          "bg-[#282320] border-[.8px] text-[#fff] transition-all duration-500 ease-bounce rounded hover:bg-transparent border-[#a85b2a9a]",
         _3dWhite: "button-54 rounded-lg  bg-white",
       },
     },
@@ -37,6 +38,7 @@ const LinkTheme = React.forwardRef<HTMLAnchorElement, ButtonProps>(
   ({ className, variant, ...props }, ref) => {
     return (
       <a
+        target="_blank"
         className={cn(linkVariants({ variant, className }))}
         ref={ref}
         {...props}

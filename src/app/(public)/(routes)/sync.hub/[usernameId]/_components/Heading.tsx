@@ -108,7 +108,10 @@ const Heading = ({ avater }: Props) => {
             stiffness: 80,
           }}
           onClick={copyToClipboard}
-          style={{ color: theme?.textHeading }}
+          style={{
+            color: theme?.textHeading,
+            borderColor: theme?.textColor,
+          }}
           className="px-4 py-2 mt-4 mx-auto border group  rounded-lg  sm:text-base text-sm font-medium  flex items-center"
         >
           <Copy className="mr-2 w-4 h-4 " />{" "}

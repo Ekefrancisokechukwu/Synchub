@@ -159,8 +159,9 @@ const ProfileSetUp = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center mt-2 gap-x-1">
-          <div className="flex-1">
+
+        <div className="flex   max-[400px]:flex-col flex-row gap-y-2 items-center mt-2 gap-x-1">
+          <div className="flex-1 max-[400px]:w-full">
             <Input
               value={inputValues.email}
               name="email"

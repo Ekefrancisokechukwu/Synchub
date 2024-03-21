@@ -3,6 +3,7 @@ type LinksProps = {
   headline?: boolean;
   link?: string;
   visible: boolean;
+  important?: boolean;
   img?: string;
   id: string;
 };

@@ -21,12 +21,12 @@ const Account = () => {
   }, [accounts, currentUser, setUser]);
 
   return (
-    <div className="pt-3 pb-5 px-5">
+    <div className="pt-3 pb-5 sm:px-5">
       <div className="mt-11">
         {accounts === undefined && <SynchubAccountLoading />}
         {accounts?.length! >= 1 && (
           <div>
-            <h1 className="text-neutral-600 text-center font-medium text-3xl">
+            <h1 className="text-neutral-600 text-center font-medium sm:text-3xl text-xl">
               My Synchub Accounts
             </h1>
             <div className="mt-6 space-y-6">

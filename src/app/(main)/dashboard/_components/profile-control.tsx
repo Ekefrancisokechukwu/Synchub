@@ -40,7 +40,7 @@ const ProfileControl = () => {
   }, [account, accounts, setUser]);
 
   return (
-    <div className="fixed right-[3rem] top-3 w-[3rem] bg-white grid z-20 place-items-center shadow-xl h-[3rem] rounded-full">
+    <div className="fixed right-[3rem] top-3 w-[3rem] bg-white sm:grid hidden z-20 place-items-center shadow-xl h-[3rem] rounded-full">
       {!account ? (
         <Button
           size={"icon"}

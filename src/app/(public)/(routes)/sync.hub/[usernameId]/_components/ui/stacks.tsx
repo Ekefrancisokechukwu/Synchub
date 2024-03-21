@@ -15,6 +15,7 @@ const stacksVariants = cva("w-full   rounded-3xl  bg-neutral-50 py-4 px-4", {
       gradients:
         " bg-neutral-50/50 rounded-3xl shadow transition-all  duration-500 ",
       simple: "",
+      particleGray: "bg-[#282320] border-[.8px]  rounded border-[#a85b2a9a]",
       _3dWhite: "stacks-box rounded-lg  bg-white",
     },
   },

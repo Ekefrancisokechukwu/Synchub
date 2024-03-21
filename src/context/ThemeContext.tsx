@@ -11,11 +11,13 @@ export type ThemeProps = {
   backgroundColor?: string;
   textColor: string;
   textHeading: string;
+  particle?: "circle";
   variant?:
     | "dark"
     | "rounded"
     | "_3dWhite"
     | "simple"
+    | "particleGray"
     | "gradients"
     | "default";
 };
@@ -59,13 +61,20 @@ export const themes: ThemeOptions = {
     textHeading: "#fff",
     variant: "dark",
   },
-
   gradientPurple: {
     backgroundImage:
       "linear-gradient(0deg, rgb(130, 34, 148), rgb(233, 53, 248))",
     textColor: "#fff",
     textHeading: "#fff",
     variant: "gradients",
+  },
+  radialparticles: {
+    backgroundGradient:
+      "radial-gradient(97.8% 95.6% at 61% 45.5%, #000 57.65765765765766%, rgb(52, 35, 9) 100%)",
+    textColor: "#fff",
+    textHeading: "#fff",
+    particle: "circle",
+    variant: "particleGray",
   },
 };
 

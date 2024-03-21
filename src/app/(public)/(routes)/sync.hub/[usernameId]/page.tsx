@@ -10,6 +10,9 @@ import React, { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ThemeProps, useTheme } from "@/context/ThemeContext";
 import Stacks from "./_components/Stacks";
+import { loadSlim } from "@tsparticles/slim";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import type { Container, Engine } from "@tsparticles/engine";
 
 interface DocumentIdPageProps {
   params: {
@@ -23,11 +26,14 @@ const defaultTheme = {
   textColor: "#7e7e7e",
   textHeading: "#1d1d1dd8",
   variant: "_3dWhite",
+  particle: null,
+  backgroundGradient: "#ffff",
 };
 
 const Overview = ({ params }: DocumentIdPageProps) => {
   const decodedParams = decodeURIComponent(params.usernameId);
   const [mounted, setMounted] = React.useState(false);
+  const [init, setInit] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
@@ -37,16 +43,27 @@ const Overview = ({ params }: DocumentIdPageProps) => {
     usernameId: decodedParams,
   });
 
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  const particlesLoaded = async (
+    container: Container | undefined
+  ): Promise<void> => {};
+
   if (account === undefined) {
     return;
   }
-
   const objUser = Object.fromEntries(
     account.map((account) => ["currentUser", account])
   );
 
   const { currentUser } = objUser;
-
   const theme = currentUser.style || defaultTheme;
 
   return (
@@ -54,10 +71,74 @@ const Overview = ({ params }: DocumentIdPageProps) => {
       <div
         style={{
           backgroundColor: theme?.backgroundColor,
-          backgroundImage: theme.backgroundImage,
+          backgroundImage: theme.backgroundGradient || theme.backgroundImage,
         }}
         className="fixed inset-0 bg-center -z-10 bg-cover "
       ></div>
+
+      {init && theme.particle && (
+        <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          options={{
+            fpsLimit: 120,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: true,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: true,
+                  mode: "repulse",
+                },
+              },
+              modes: {
+                push: {
+                  quantity: 4,
+                },
+                repulse: {
+                  distance: 200,
+                  duration: 0.4,
+                },
+              },
+            },
+            particles: {
+              color: {
+                value: "#ffffff",
+              },
+
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: false,
+                speed: 1,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: 0.5,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 3 },
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+      )}
+
       {!!theme.backgroundImage && (
         <div className="fixed h-full w-full  inset-0 -z-10">
           <div className="relative w-full h-full">
@@ -65,7 +146,6 @@ const Overview = ({ params }: DocumentIdPageProps) => {
               style={{ backgroundImage: `url(${currentUser.imageUrl})` }}
               className="fixed blur-2xl mix-blend-overlay opacity-25 top-0 bg-no-repeat bg-cover bg-center h-full w-full"
             ></div>
-
             <div
               style={{
                 backgroundSize: "512px 512px",

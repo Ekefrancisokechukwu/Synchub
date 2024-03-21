@@ -76,20 +76,6 @@
   }
 }
 
-@layer base {
-  :root {
-    --theme-bg: #fff;
-    --theme-text-primary: #7e7e7e;
-    --theme-text-heading: #1d1d1dd8;
-  }
-
-  .theme-dark {
-    --theme-bg: #020202;
-    --theme-text-primary: #cfcecedb;
-    --theme-text-heading: #fff;
-  }
-}
-
 @layer components {
   .button-54 {
     color: #000;

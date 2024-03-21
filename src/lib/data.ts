@@ -80,7 +80,7 @@ export const availableThumbnailIcons = [
   "/png/linkedin.png",
   "/png/snapchat.png",
   "/png/youtube.png",
-  "/png/twitter.png",
+  "/png/twitter.webp",
   "/png/github.png",
   "/png/social.png",
   "/png/figma/figma-dynamic-clay.png",

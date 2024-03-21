@@ -8,7 +8,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 
 const Themes = () => {
-  const initialTheme = localStorage.getItem("theme") || "default";
+  const initialTheme = localStorage.getItem("synchubTheme") || "default";
   const [currrentTheme, setCurrentTheme] = useState(initialTheme);
   const { changeTheme } = useTheme();
 
@@ -88,6 +88,42 @@ const Themes = () => {
               ></LinkTheme>
               <LinkTheme
                 variant={"_3dWhite"}
+                className=" py-2 w-[85%] mx-auto"
+              ></LinkTheme>
+            </div>
+          </button>
+
+          <button
+            style={{
+              height: 200,
+              backgroundImage:
+                "radial-gradient(97.8% 95.6% at 61% 45.5%, #000000 57.65765765765766%, rgb(24,48,11) 100%)",
+            }}
+            onClick={() => {
+              changeTheme("radialparticles");
+              setCurrentTheme("radialparticles");
+            }}
+            className={cn(
+              " border rounded-lg ",
+              currrentTheme === "radialparticles" ? "outline" : "outline-none"
+            )}
+          >
+            <div
+              className={cn(
+                "space-y-2",
+                currrentTheme === "radialparticles" ? "scale-95 " : "scale-100 "
+              )}
+            >
+              <LinkTheme
+                variant={"particleGray"}
+                className=" py-2 w-[85%] mx-auto"
+              ></LinkTheme>
+              <LinkTheme
+                variant={"particleGray"}
+                className=" py-2 w-[85%] mx-auto"
+              ></LinkTheme>
+              <LinkTheme
+                variant={"particleGray"}
                 className=" py-2 w-[85%] mx-auto"
               ></LinkTheme>
             </div>

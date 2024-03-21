@@ -17,6 +17,7 @@ import { useThumbnail } from "@/hooks/use-thumbnail";
 import Image from "next/image";
 import { useDelete } from "@/hooks/use-delete";
 import DeleteModal from "@/components/modals/DeleteModal";
+import { Star } from "lucide-react";
 
 type Props = {
   link: LinksProps;
@@ -99,14 +100,9 @@ const SingleLink = ({ link }: Props) => {
     }
   };
 
-  const deleteLink = (id:string) => {
+  const deleteLink = (id: string) => {
     if (!currentUser) return;
-    const updatedLink = currentUser.links?.filter(
-      (item) => item.id !== id
-    );
-
-    console.log(id);
-    console.log(id);
+    const updatedLink = currentUser.links?.filter((item) => item.id !== id);
 
     if (linkValue) {
       updatelinks({
@@ -129,13 +125,24 @@ const SingleLink = ({ link }: Props) => {
     <div ref={setNodeRef} style={style} className="group">
       {link.headline && (
         <div className="max-h-[13rem] group-first-of-type:mt-0 mt-8  h-full flex items-center gap-x-2">
-          <button {...attributes} {...listeners} className="cursor-grab">
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab max-[400px]:hidden"
+          >
             <RiDraggable className="text-2xl text-gray-500" />
           </button>
-          <div className="py-4 px-6  flex-grow  bg-white rounded-2xl min-h-full flex items-center">
+          <div className="py-4 px-6  max-[400px]:px-3  flex-grow  bg-white rounded-2xl min-h-full flex items-center">
+            <button
+              {...attributes}
+              {...listeners}
+              className="cursor-grab max-[400px]:block hidden"
+            >
+              <RiDraggable className="text-2xl  text-gray-500" />
+            </button>
+
             <div
               onClick={() => {
-                console.log("cliked");
                 setEditHeadline(true);
               }}
               className="flex-grow flex justify-center  items-center gap-x-2 text-center"
@@ -205,20 +212,33 @@ const SingleLink = ({ link }: Props) => {
           </div>
         </div>
       )}
+
       {!link.headline && (
         <div className="flex items-center gap-x-2 max-h-[13rem] h-full">
-          <button {...attributes} {...listeners} className="cursor-grab ">
-            <RiDraggable className="text-2xl text-gray-500" />
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab max-[400px]:hidden"
+          >
+            <RiDraggable className="sm:text-2xl text-lg text-gray-500" />
           </button>
 
-          <div className="py-4 px-6  flex-grow bg-white rounded-2xl h-full flex items-center">
+          <div className="py-4 px-6  max-[400px]:px-3  flex-grow bg-white rounded-2xl h-full flex items-center">
+            <button
+              {...attributes}
+              {...listeners}
+              className="cursor-grab max-[400px]:block hidden mr-2"
+            >
+              <RiDraggable className="text-2xl  text-gray-500" />
+            </button>
+
             <div className="flex-grow flex gap-x-7 items-center">
               <span
                 onClick={() => {
                   setLinkId(link.id);
                   onOpen();
                 }}
-                className="w-9 cursor-pointer bg-neutral-100 rounded-full h-9 place-items-center text-xl text-gray-500  grid"
+                className="sm:w-9 w-5  max-[400px]:hidden cursor-pointer bg-neutral-100 rounded-full sm:h-9 h-5 place-items-center text-xl text-gray-500  grid"
               >
                 {link.img ? (
                   <Image
@@ -231,6 +251,7 @@ const SingleLink = ({ link }: Props) => {
                   <IoImageOutline />
                 )}
               </span>
+
               <div>
                 <div
                   onClick={() => setEditLinkName(true)}
@@ -256,7 +277,7 @@ const SingleLink = ({ link }: Props) => {
                       className="text-base outline-none"
                     />
                   ) : (
-                    <h5 className="text-base text-gray-700 capitalize">
+                    <h5 className="text-base  text-gray-700 capitalize">
                       {link.txt ? link.txt : "Link Titile"}
                     </h5>
                   )}
@@ -299,13 +320,28 @@ const SingleLink = ({ link }: Props) => {
                   )}
                   {!editLink && <FiEdit className="text-sm text-gray-400" />}
                 </div>
+
+                <div className="mt-2 flex items-center gap-x-3">
+                  <span
+                    onClick={() => {
+                      setLinkId(link.id);
+                      onOpen();
+                    }}
+                    className="max-[400px]:block hidden"
+                  >
+                    <IoImageOutline className="text-gray-500" />
+                  </span>
+                  <span className=" cursor-pointer p-1 hover:scale-105 transition-all duration-200">
+                    <Star className="text-gray-500 w-4 h-4" />
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-x-3 text-gray-500 text-xl">
+            <div className="flex items-center gap-x-3 text-gray-500 sm:text-xl text-base">
               <button
                 onClick={handleVisiblity}
-                className="p-2 transition duration-300 text-[1.3rem] rounded-xl hover:bg-neutral-100 "
+                className="p-2 transition duration-300 sm:text-[1.3rem] text-[1rem] rounded-xl hover:bg-neutral-100 "
               >
                 {link.visible && link.link ? (
                   <span>

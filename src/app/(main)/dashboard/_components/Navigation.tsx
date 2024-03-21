@@ -24,7 +24,7 @@ export type linkProps = {
   text: string;
 };
 
-const links: linkProps[] = [
+export const links: linkProps[] = [
   {
     icon: Computer,
     path: "/dashboard",
@@ -45,12 +45,6 @@ const links: linkProps[] = [
     path: "#",
     text: "Analytics",
   },
-
-  {
-    icon: Wrench,
-    path: "/dashboard/settings",
-    text: "settings",
-  },
 ];
 
 const Navigation = () => {
@@ -66,7 +60,7 @@ const Navigation = () => {
   return (
     <aside
       className={cn(
-        "h-full relative bg-white  flex-none block  border-r transition-width duration-300 ease-in-out",
+        "h-full relative bg-white sm:block hidden    flex-none   border-r transition-width duration-300 ease-in-out",
         collapsed ? "w-[69px]" : "md:w-[170px]"
       )}
     >

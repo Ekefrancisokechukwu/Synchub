@@ -58,7 +58,7 @@ const Stacks = ({ style, stacks }: Props) => {
               return (
                 <li
                   key={i}
-                  className="w-[3rem] ml-7 inline-block  h-[3rem] flex-shrink-0"
+                  className="w-[3rem] ml-7  inline-block  h-[3rem] flex-shrink-0"
                 >
                   <Image src={stack.url} alt="" width={200} height={200} />
                 </li>

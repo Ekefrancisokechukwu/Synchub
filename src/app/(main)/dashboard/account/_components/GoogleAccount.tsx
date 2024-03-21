@@ -13,7 +13,7 @@ const GoogleAccount = () => {
 
   return (
     <form className="max-w-[40rem] w-full mx-auto">
-      <h1 className="text-neutral-600 text-center font-medium text-3xl">
+      <h1 className="text-neutral-600 text-center font-medium sm:text-3xl text-xl">
         My account
       </h1>
       <div className="bg-white w-full flex flex-col rounded-md gap-y-5 mt-9 px-9 py-4">

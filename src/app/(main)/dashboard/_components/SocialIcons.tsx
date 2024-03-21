@@ -1,13 +1,12 @@
 import { useCurrentUser } from "@/hooks/useCurrentAccount";
-import { BsTwitterX } from "react-icons/bs";
 import { TbEyeCancel, TbEyeCheck } from "react-icons/tb";
 import { BsTrash3 } from "react-icons/bs";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { IconsReact } from "@/lib/data";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
-import { AnimatePresence, animate, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface EditModes {
   [key: number]: boolean;
@@ -26,6 +25,7 @@ const SocialIcons = () => {
   const [editMode, setEditMode] = useState<EditModes>({});
   const update = useMutation(api.synchubAccount.updateAccount);
   const [inputValues, setInputValues] = useState<{ [key: number]: string }>({});
+  const [position, setPosition] = useState<"top" | "bottom">("top");
 
   const handleEdit = (linkIcon: SocialIcon, i: number) => {
     if (!currentUser) return;

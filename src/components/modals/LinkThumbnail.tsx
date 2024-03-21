@@ -48,7 +48,6 @@ const LinkThumbnail = () => {
     if (file) {
       setIsSubmitting(true);
       setFile(file);
-
       const res = await edgestore.publicFiles.upload({
         file,
         options: {
@@ -73,12 +72,13 @@ const LinkThumbnail = () => {
     const updatedLinks = currentUser.links?.map((link) =>
       link.id === linkId ? { ...link, img: imgUrl } : link
     );
+
     await update({ id: currentUser._id, links: updatedLinks });
     handleClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
         {!upload && (
           <div className="">
@@ -120,7 +120,10 @@ const LinkThumbnail = () => {
               <div className="p-3">
                 <DialogHeader>
                   <Button
-                    onClick={setAvialableFalse}
+                    onClick={() => {
+                      setAvialableFalse();
+                      setFile(undefined);
+                    }}
                     size={"icon"}
                     variant={"ghost"}
                     className="rounded-lg "

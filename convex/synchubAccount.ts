@@ -111,6 +111,7 @@ export const updateAccount = mutation({
         })
       )
     ),
+
     stacks: v.optional(
       v.array(v.object({ url: v.string(), visible: v.boolean() }))
     ),
@@ -166,6 +167,7 @@ export const updateLinks = mutation({
           link: v.optional(v.string()),
           visible: v.boolean(),
           img: v.optional(v.string()),
+          important: v.optional(v.boolean()),
           id: v.string(),
         })
       )
@@ -196,12 +198,15 @@ export const updateStyle = mutation({
         backgroundColor: v.optional(v.string()),
         textColor: v.string(),
         textHeading: v.string(),
+        particle: v.optional(v.union(v.literal("circle"), v.literal("star"))),
+
         variant: v.optional(
           v.union(
             v.literal("dark"),
             v.literal("rounded"),
             v.literal("_3dWhite"),
             v.literal("simple"),
+            v.literal("particleGray"),
             v.literal("gradients"),
             v.literal("default")
           )
