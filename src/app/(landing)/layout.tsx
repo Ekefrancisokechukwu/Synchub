@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth();
   if (isAuthenticated) {
-    redirect("/dashboard/admin");
+    redirect("/dashboard");
   }
   return (
     <div className=" bg-primary-foreground  min-h-screen">

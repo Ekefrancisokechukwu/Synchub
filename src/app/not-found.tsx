@@ -10,7 +10,7 @@ export default function NotFound() {
         <h2 className="text-xl font-semibold">404 Not Found</h2>
         <p>Could not find the requested page.</p>
         <Link
-          href="/"
+          href="/dashboard"
           className="mt-5 px-6 py-3 rounded-md bg-blue-600 text-white inline-block"
         >
           Return Home
