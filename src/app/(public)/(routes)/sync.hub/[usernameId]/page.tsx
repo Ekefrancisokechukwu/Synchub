@@ -190,12 +190,15 @@ const Overview = ({ params }: DocumentIdPageProps) => {
         >
           &copy; Francis
         </Link>
+
         <Button
           asChild
           variant={"ghost"}
           className="rounded-full bg-gray-100 text-gray-500"
         >
-          <Link href={"/"}>Create yours</Link>
+          <Link target="_blank" href={"/"}>
+            Create yours
+          </Link>
         </Button>
       </div>
     </div>
